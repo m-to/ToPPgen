@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ The Clear BSD License
+  ~
+  ~ Copyright (c) 2016, Tobias Modschiedler (mail@m-to.de)
+  ~ All rights reserved.
+  ~
+  ~ Redistribution and use in source and binary forms, with or without
+  ~ modification, are permitted (subject to the limitations in the disclaimer
+  ~ below) provided that the following conditions are met:
+  ~
+  ~ * Redistributions of source code must retain the above copyright notice, this
+  ~   list of conditions and the following disclaimer.
+  ~
+  ~ * Redistributions in binary form must reproduce the above copyright notice,
+  ~   this list of conditions and the following disclaimer in the documentation
+  ~   and/or other materials provided with the distribution.
+  ~
+  ~ * Neither the name of the copyright holder nor the names of its contributors may be used
+  ~   to endorse or promote products derived from this software without specific
+  ~   prior written permission.
+  ~
+  ~ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
+  ~ LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  ~ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+  ~ THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ~ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  ~ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  ~ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+  ~ GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  ~ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  ~ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+  ~ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+  ~ DAMAGE.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="de.m_to.toppgen.MainActivity">
+
+    <ToggleButton
+        android:text="@string/xxx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/toggleMaster"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/textMaster"
+        android:layout_toEndOf="@+id/textMaster" />
+
+    <TextView
+        android:text="@string/label_master"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textMaster"
+        android:layout_alignBaseline="@+id/toggleMaster"
+        android:layout_alignBottom="@+id/toggleMaster"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/label_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textMaster"
+        android:layout_toRightOf="@+id/toggleMaster"
+        android:layout_toEndOf="@+id/toggleMaster"
+        android:id="@+id/textLevel" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekLevel"
+        android:layout_alignTop="@+id/textLevel"
+        android:layout_toRightOf="@+id/textLevel"
+        android:layout_toEndOf="@+id/textLevel"
+        android:max="100"
+        android:progress="100" />
+
+    <TextView
+        android:text="@string/value_percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewLevel"
+        android:layout_alignBottom="@+id/seekLevel"
+        android:layout_toRightOf="@+id/toggleMaster"
+        android:layout_toEndOf="@+id/toggleMaster" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textPulseWidth"
+        android:layout_toRightOf="@+id/textPulseWidth"
+        android:layout_toEndOf="@+id/textPulseWidth"
+        android:id="@+id/seekImpulseLength"
+        android:progress="0" />
+
+    <TextView
+        android:text="@string/value_ms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewImpulseLength"
+        android:layout_alignBottom="@+id/seekImpulseLength"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/label_impulse_delay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewImpulseLength"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/control_vertical_margin"
+        android:id="@+id/textImpulseDelay" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textImpulseDelay"
+        android:layout_alignLeft="@+id/seekImpulseLength"
+        android:layout_alignStart="@+id/seekImpulseLength"
+        android:id="@+id/seekImpulseDelay" />
+
+    <TextView
+        android:text="@string/value_ms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/seekImpulseDelay"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/viewImpulseDelay" />
+
+    <TextView
+        android:text="@string/label_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textDuty"
+        android:layout_marginTop="@dimen/control_vertical_margin"
+        android:layout_below="@+id/toggleMaster"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/value_percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewDutyCycle"
+        android:layout_alignBottom="@+id/seekDutyCycle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekDutyCycle"
+        android:max="100"
+        android:progress="20"
+        android:layout_alignTop="@+id/textDuty"
+        android:layout_toRightOf="@+id/textPulseWidth"
+        android:layout_toEndOf="@+id/textPulseWidth" />
+
+    <TextView
+        android:text="@string/label_impulse_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/control_vertical_margin"
+        android:id="@+id/textPulseWidth"
+        android:layout_below="@+id/viewDutyCycle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
