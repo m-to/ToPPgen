@@ -41,6 +41,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -55,21 +57,65 @@ public class MainActivity extends Activity {
     private PWMPlayer play = null;
     private AudioManager audio;
 
+    private boolean lockVolume = false;
+
     private void initialize_views() {
         final Resources res = getResources();
 
         final TextView viewDutyLevel = (TextView)findViewById(R.id.viewDutyCycle);
-        final TextView viewLevel = (TextView)findViewById(R.id.viewLevel);
         final TextView viewImpulseLength = (TextView)findViewById(R.id.viewImpulseLength);
         final TextView viewImpulseDelay = (TextView)findViewById(R.id.viewImpulseDelay);
 
         SeekBar seekDutyCycle = (SeekBar)findViewById(R.id.seekDutyCycle);
-        SeekBar seekLevel = (SeekBar)findViewById(R.id.seekLevel);
         SeekBar seekImpulseLength = (SeekBar)findViewById(R.id.seekImpulseLength);
         SeekBar seekImpulseDelay = (SeekBar)findViewById(R.id.seekImpulseDelay);
 
-        ToggleButton toggle = (ToggleButton)findViewById(R.id.toggleMaster);
+        ToggleButton toggleMaster = (ToggleButton)findViewById(R.id.toggleMaster);
+        ToggleButton toggleVolLock = (ToggleButton)findViewById(R.id.toggleVolLock);
+        ToggleButton toggleStayAwake = (ToggleButton)findViewById(R.id.toggleStayAwake);
 
+
+
+        toggleMaster.setChecked(play.isPlaying());
+        toggleMaster.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isPressed) {
+                if (isPressed) {
+                    play.startPlay(); //starts thread
+                } else {
+                    play.stopPlay(); //stops thread
+                }
+            }
+        });
+
+        toggleVolLock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    audio.setStreamVolume(AudioManager.STREAM_MUSIC,
+                            audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
+                            AudioManager.FLAG_SHOW_UI);
+                    lockVolume = true;
+                } else {
+                    lockVolume = false;
+                }
+            }
+        });
+
+        // initialize "Keep screen on" toggle
+        // no need to recover state here
+        toggleStayAwake.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                } else {
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
+            }
+        });
+
+        // initialize "Power" (pulse width) slider
         int pulseWidthMS = play.getPulseWidthMs();
         int progress = pulseWidthMS - PWMPlayer.MinPulseWidthMs;
         int dutyCycle = 100 * progress / (PWMPlayer.MaxPulseWidthMs - PWMPlayer.MinPulseWidthMs);
@@ -96,28 +142,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        int levelPercent = 100 * audio.getStreamVolume(AudioManager.STREAM_MUSIC) / audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        seekLevel.setMax(100);
-        seekLevel.setProgress(levelPercent);
-        viewLevel.setText(res.getString(R.string.value_percent, levelPercent));
-        seekLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                viewLevel.setText(res.getString(R.string.value_percent, progress));
-                audio.setStreamVolume(AudioManager.STREAM_MUSIC, progress * audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 100, 0);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
+        // initialize impulse length slider
         int impulseLength = play.getImpulseLengthMS();
         seekImpulseLength.setMax(maxImpulseLength / PWMPlayer.PeriodLengthMs);
         seekImpulseLength.setProgress(impulseLength / PWMPlayer.PeriodLengthMs);
@@ -142,6 +167,7 @@ public class MainActivity extends Activity {
             }
         });
 
+        // inititalize impulse delay slider
         int impulseDelay = play.getImpulseDelayMS();
         seekImpulseDelay.setMax(maxImpulseDelay / PWMPlayer.PeriodLengthMs);
         seekImpulseDelay.setProgress(impulseDelay / PWMPlayer.PeriodLengthMs);
@@ -165,21 +191,6 @@ public class MainActivity extends Activity {
 
             }
         });
-
-
-        toggle.setChecked(play.isPlaying());
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isPressed) {
-                if (isPressed) {
-                    play.startPlay(); //starts thread
-                } else {
-                    play.stopPlay(); //stops thread
-                }
-            }
-        });
-
-
     }
 
 
@@ -187,6 +198,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         FragmentManager fm = getFragmentManager();
         play = (PWMPlayer) fm.findFragmentByTag(TAG_PWMPLAY_FRAGMENT);
@@ -198,8 +211,6 @@ public class MainActivity extends Activity {
 
         audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         initialize_views();
-
-        // TODO: install content observer for music volume
     }
 
 
@@ -215,5 +226,15 @@ public class MainActivity extends Activity {
     public void onBackPressed() {
         // Do not call super.onBackPressed() to avoid finish().
         moveTaskToBack(false);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (lockVolume && (keyCode == KeyEvent.KEYCODE_VOLUME_UP
+                || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

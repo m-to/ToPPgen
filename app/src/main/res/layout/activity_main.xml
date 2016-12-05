@@ -45,53 +45,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="de.m_to.toppgen.MainActivity">
 
-    <ToggleButton
-        android:text="@string/xxx"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/toggleMaster"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/textMaster"
-        android:layout_toEndOf="@+id/textMaster" />
-
-    <TextView
-        android:text="@string/label_master"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textMaster"
-        android:layout_alignBaseline="@+id/toggleMaster"
-        android:layout_alignBottom="@+id/toggleMaster"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="@string/label_level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textMaster"
-        android:layout_toRightOf="@+id/toggleMaster"
-        android:layout_toEndOf="@+id/toggleMaster"
-        android:id="@+id/textLevel" />
-
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekLevel"
-        android:layout_alignTop="@+id/textLevel"
-        android:layout_toRightOf="@+id/textLevel"
-        android:layout_toEndOf="@+id/textLevel"
-        android:max="100"
-        android:progress="100" />
-
-    <TextView
-        android:text="@string/value_percent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/viewLevel"
-        android:layout_alignBottom="@+id/seekLevel"
-        android:layout_toRightOf="@+id/toggleMaster"
-        android:layout_toEndOf="@+id/toggleMaster" />
-
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -173,6 +126,58 @@
         android:layout_marginTop="@dimen/control_vertical_margin"
         android:id="@+id/textPulseWidth"
         android:layout_below="@+id/viewDutyCycle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/label_volume_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textVolLock"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/toggleVolLock"
+        android:layout_below="@+id/textVolLock"
+        android:layout_centerHorizontal="true" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textVolLock"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/toggleStayAwake" />
+
+    <ToggleButton
+        android:text="@string/xxx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/toggleMaster"
+        android:layout_below="@+id/textMaster"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/label_stay_awake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textAwake"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="@string/label_master"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textMaster"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

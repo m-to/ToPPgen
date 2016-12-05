@@ -38,6 +38,8 @@
     <string name="label_master">Master</string>
     <string name="label_level">Level</string>
     <string name="label_impulse_length">Impulse length</string>
+    <string name="label_volume_lock">Max volume</string>
+    <string name="label_stay_awake">Screen on</string>
     <string name="xxx">%</string>
     <string name="label_impulse_delay">Impulse delay</string>
     <string name="label_power">Power</string>
