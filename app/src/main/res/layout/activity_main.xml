@@ -45,6 +45,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="de.m_to.toppgen.MainActivity">
 
+    <TextView
+        android:text="@string/label_volume_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textVolLock"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -82,25 +90,6 @@
         android:id="@+id/seekImpulseDelay" />
 
     <TextView
-        android:text="@string/value_ms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/seekImpulseDelay"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/viewImpulseDelay" />
-
-    <TextView
-        android:text="@string/label_power"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textDuty"
-        android:layout_marginTop="@dimen/control_vertical_margin"
-        android:layout_below="@+id/toggleMaster"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
         android:text="@string/value_percent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -129,13 +118,102 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+
     <TextView
-        android:text="@string/label_volume_lock"
+        android:text="@string/value_ms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textVolLock"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/viewImpulseDelay"
+        android:layout_alignBottom="@+id/seekImpulseDelay"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/label_slope_rise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewImpulseDelay"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/control_vertical_margin"
+        android:id="@+id/textSlopeRise" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textSlopeRise"
+        android:layout_alignLeft="@+id/seekImpulseDelay"
+        android:layout_alignStart="@+id/seekImpulseDelay"
+        android:id="@+id/seekSlopeRise" />
+
+    <TextView
+        android:text="@string/value_ms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewSlopeRise"
+        android:layout_alignBottom="@+id/seekSlopeRise"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/label_slope_fall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewSlopeRise"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/control_vertical_margin"
+        android:id="@+id/textSlopeFall" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textSlopeFall"
+        android:layout_alignLeft="@+id/seekImpulseDelay"
+        android:layout_alignStart="@+id/seekImpulseDelay"
+        android:id="@+id/seekSlopeFall" />
+
+    <TextView
+        android:text="@string/value_ms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewSlopeFall"
+        android:layout_alignBottom="@+id/seekSlopeFall"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/label_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textDuty"
+        android:layout_marginTop="64dp"
+        android:layout_below="@+id/toggleMaster"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:layout_below="@+id/toggleVolLock"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="9dp"
+        android:id="@+id/editText"
+        android:layout_toLeftOf="@+id/seekDutyCycle"
+        android:layout_toStartOf="@+id/seekDutyCycle" />
+
+    <ToggleButton
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/toggleStayAwake"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_below="@+id/textAwake"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ToggleButton
         android:text=""
@@ -146,31 +224,14 @@
         android:layout_centerHorizontal="true" />
 
     <ToggleButton
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textVolLock"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/toggleStayAwake" />
-
-    <ToggleButton
         android:text="@string/xxx"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/toggleMaster"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_below="@+id/textMaster"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="@string/label_stay_awake"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textAwake"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 
     <TextView
         android:text="@string/label_master"
@@ -178,7 +239,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/textMaster"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignLeft="@+id/toggleMaster"
+        android:layout_alignStart="@+id/toggleMaster"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
+
+    <TextView
+        android:text="@string/label_stay_awake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textAwake"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/toggleStayAwake"
+        android:layout_alignStart="@+id/toggleStayAwake" />
 
 </RelativeLayout>
