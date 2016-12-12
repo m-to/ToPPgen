@@ -116,19 +116,19 @@ public class MainActivity extends Activity {
         });
 
         // initialize "Power" (pulse width) slider
-        int pulseWidthMS = play.getPulseWidthMs();
-        int progress = pulseWidthMS - PWMPlayer.MinPulseWidthMs;
-        int dutyCycle = 100 * progress / (PWMPlayer.MaxPulseWidthMs - PWMPlayer.MinPulseWidthMs);
-        seekDutyCycle.setMax(PWMPlayer.MaxPulseWidthMs - PWMPlayer.MinPulseWidthMs);
+        int pulseWidthUs = play.getPulseWidthUs();
+        int progress = pulseWidthUs - PWMPlayer.MinPulseWidthUs;
+        int dutyCycle = 100 * progress / (PWMPlayer.MaxPulseWidthUs - PWMPlayer.MinPulseWidthUs);
+        seekDutyCycle.setMax(PWMPlayer.MaxPulseWidthUs - PWMPlayer.MinPulseWidthUs);
         seekDutyCycle.setProgress(progress);
         viewDutyLevel.setText(res.getString(R.string.value_percent, dutyCycle));
         seekDutyCycle.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int pulseWidthMS = PWMPlayer.MinPulseWidthMs + progress;
-                int dutyCycle = 100 * progress / (PWMPlayer.MaxPulseWidthMs - PWMPlayer.MinPulseWidthMs);
+                int pulseWidthUs = PWMPlayer.MinPulseWidthUs + progress;
+                int dutyCycle = 100 * progress / (PWMPlayer.MaxPulseWidthUs - PWMPlayer.MinPulseWidthUs);
                 viewDutyLevel.setText(res.getString(R.string.value_percent, dutyCycle));
-                play.setPulseWidthMs(pulseWidthMS);
+                play.setPulseWidthUs(pulseWidthUs);
             }
 
             @Override

@@ -45,15 +45,15 @@ import android.util.Log;
 public class PWMPlayer extends Fragment {
 
     public static final int PeriodLengthMs = 20;
-    public static final int MinPulseWidthMs = 1;
-    public static final int MaxPulseWidthMs = PeriodLengthMs - 1;
+    public static final int MinPulseWidthUs = 1000;
+    public static final int MaxPulseWidthUs = 2000;
 
     private static final int sampleRate = 48000;
     private static final int samplesPerPeriod = PeriodLengthMs * sampleRate / 1000;
     private static final int bufferPeriods = 10;
 
     // parameters shared with thread
-    private volatile int pulseWidthMs = MaxPulseWidthMs;
+    private volatile int pulseWidthUs = MaxPulseWidthUs;
     private volatile int impulseLengthMS = 0;
     private volatile int impulseDelayMS = 0;
 
@@ -75,19 +75,19 @@ public class PWMPlayer extends Fragment {
     }
 
 
-    public void setPulseWidthMs(int pulseWidthMs) {
-        if (pulseWidthMs < MinPulseWidthMs) {
-            this.pulseWidthMs = MinPulseWidthMs;
-        } else if (pulseWidthMs > MaxPulseWidthMs) {
-            this.pulseWidthMs = MaxPulseWidthMs;
+    public void setPulseWidthUs(int pulseWidthUs) {
+        if (pulseWidthUs < MinPulseWidthUs) {
+            this.pulseWidthUs = MinPulseWidthUs;
+        } else if (pulseWidthUs > MaxPulseWidthUs) {
+            this.pulseWidthUs = MaxPulseWidthUs;
         } else {
-            this.pulseWidthMs = pulseWidthMs;
+            this.pulseWidthUs = pulseWidthUs;
         }
-        Log.d("PWMPlayer", "pulse width " + this.pulseWidthMs);
+        Log.d("PWMPlayer", "pulse width " + this.pulseWidthUs);
     }
 
-    public int getPulseWidthMs() {
-        return pulseWidthMs;
+    public int getPulseWidthUs() {
+        return pulseWidthUs;
     }
 
     public void setImpulseLengthMS(int length) {
@@ -121,9 +121,9 @@ public class PWMPlayer extends Fragment {
 
         // determine pulse width for current period based on current impulse time
         if (currentImpulseMs <= impulseLengthMS) {
-            pulseWidthSamples = this.pulseWidthMs * sampleRate / 1000; // power during this period
+            pulseWidthSamples = this.pulseWidthUs * sampleRate / 1000000; // power during this period
         } else {
-            pulseWidthSamples = MinPulseWidthMs * sampleRate / 1000; // no power during this period
+            pulseWidthSamples = MinPulseWidthUs * sampleRate / 1000000; // no power during this period
         }
 
         // generate samples
