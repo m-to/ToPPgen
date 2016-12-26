@@ -82,8 +82,9 @@ public class PWMPlayer extends Fragment {
     }
 
     public void setLimitPulseWidthFactor(float v) {
+        float factor = getPulseWidthFactor();
         this.limitPulseWidthFactor = v;
-        setPulseWidthFactor(getPulseWidthFactor());
+        setPulseWidthFactor(factor);
     }
 
     public void setPulseWidthFactor(float v) {
