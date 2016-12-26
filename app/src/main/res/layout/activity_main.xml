@@ -182,29 +182,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:text="@string/label_power"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textDuty"
-        android:layout_marginTop="64dp"
-        android:layout_below="@+id/toggleMaster"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:layout_below="@+id/toggleVolLock"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="9dp"
-        android:id="@+id/editText"
-        android:layout_toLeftOf="@+id/seekDutyCycle"
-        android:layout_toStartOf="@+id/seekDutyCycle" />
-
     <ToggleButton
         android:text=""
         android:layout_width="wrap_content"
@@ -252,5 +229,50 @@
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/toggleStayAwake"
         android:layout_alignStart="@+id/toggleStayAwake" />
+
+    <TextView
+        android:text="@string/label_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textDuty"
+        android:layout_marginTop="@dimen/control_vertical_margin"
+        android:layout_below="@+id/editText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/label_supply_voltage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textSupplyVoltage"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/toggleMaster"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/textSlopeRise"
+        android:layout_alignEnd="@+id/textSlopeRise" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_alignTop="@+id/textSupplyVoltage"
+        android:text="12.0"
+        android:layout_toLeftOf="@+id/textView2"
+        android:layout_toRightOf="@+id/textMaster"
+        android:layout_toEndOf="@+id/textMaster" />
+
+    <TextView
+        android:text="@string/label_motor_voltage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/editText"
+        android:layout_toLeftOf="@+id/toggleStayAwake"
+        android:layout_toStartOf="@+id/toggleStayAwake"
+        android:layout_marginRight="22dp"
+        android:layout_marginEnd="22dp"
+        android:id="@+id/textView2" />
 
 </RelativeLayout>

@@ -42,6 +42,8 @@
     <string name="label_stay_awake">Screen on</string>
     <string name="label_slope_rise">Slope rise</string>
     <string name="label_slope_fall">Slope fall</string>
+    <string name="label_supply_voltage">Supply voltage</string>
+    <string name="label_motor_voltage">Motor voltage</string>
     <string name="xxx">%</string>
     <string name="label_impulse_delay">Impulse delay</string>
     <string name="label_power">Power</string>
