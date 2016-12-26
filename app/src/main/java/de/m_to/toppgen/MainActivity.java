@@ -38,29 +38,76 @@ package de.m_to.toppgen;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
 
-    private static final int maxImpulseLength = 1000;
-    private static final int maxImpulseDelay = 1000;
+    private static final float DEFAULT_MOTOR_VOLTAGE = 4.8f;
+    private static final float DEFAULT_SUPPLY_VOLTAGE = 12.0f;
+    private static final int MaxImpulseLength = 1000;
+    private static final int MaxImpulseDelay = 1000;
     private static final String TAG_PWMPLAY_FRAGMENT = "pwmplay_fragment";
+
+    private final static String STATE_VOL_LOCK = "vol_lock";
+    private final static String STATE_STAY_AWAKE = "stay_awake";
+    private final static String STATE_SUPPLY_VOLTAGE = "supply_voltage";
+    private final static String STATE_MOTOR_VOLTAGE = "motor_voltage";
+    private final static String STATE_DUTY_CYCLE = "duty_cycle";
+    private final static String STATE_IMPULSE_LENGTH = "impulse_length";
+    private final static String STATE_IMPULSE_DELAY = "impulse_delay";
 
     private PWMPlayer play = null;
     private AudioManager audio;
 
     private boolean lockVolume = false;
 
+    private void setLimit(float motorVoltage, float supplyVoltage) {
+        play.setLimitPulseWidthFactor(motorVoltage / supplyVoltage);
+    }
+
+    private void save_settings() {
+        SharedPreferences settings = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+
+        ToggleButton toggleVolLock = (ToggleButton)findViewById(R.id.toggleVolLock);
+        ToggleButton toggleStayAwake = (ToggleButton)findViewById(R.id.toggleStayAwake);
+
+        EditText editSupplyVoltage = (EditText)findViewById(R.id.editSupplyVoltage);
+        EditText editMotorVoltage = (EditText)findViewById(R.id.editMotorVoltage);
+
+        SeekBar seekDutyCycle = (SeekBar)findViewById(R.id.seekDutyCycle);
+        SeekBar seekImpulseLength = (SeekBar)findViewById(R.id.seekImpulseLength);
+        SeekBar seekImpulseDelay = (SeekBar)findViewById(R.id.seekImpulseDelay);
+
+        editor.putBoolean(STATE_VOL_LOCK, toggleVolLock.isChecked());
+        editor.putBoolean(STATE_STAY_AWAKE, toggleStayAwake.isChecked());
+
+        editor.putFloat(STATE_SUPPLY_VOLTAGE, Float.parseFloat(editSupplyVoltage.getText().toString()));
+        editor.putFloat(STATE_MOTOR_VOLTAGE, Float.parseFloat(editMotorVoltage.getText().toString()));
+
+        editor.putInt(STATE_DUTY_CYCLE, seekDutyCycle.getProgress());
+        editor.putInt(STATE_IMPULSE_LENGTH, seekImpulseLength.getProgress() * PWMPlayer.PeriodLengthMs);
+        editor.putInt(STATE_IMPULSE_DELAY, seekImpulseDelay.getProgress() * PWMPlayer.PeriodLengthMs);
+
+        editor.commit();
+    }
+
     private void initialize_views() {
         final Resources res = getResources();
+        final SharedPreferences settings = getPreferences(MODE_PRIVATE);
 
         final TextView viewDutyLevel = (TextView)findViewById(R.id.viewDutyCycle);
         final TextView viewImpulseLength = (TextView)findViewById(R.id.viewImpulseLength);
@@ -74,9 +121,10 @@ public class MainActivity extends Activity {
         ToggleButton toggleVolLock = (ToggleButton)findViewById(R.id.toggleVolLock);
         ToggleButton toggleStayAwake = (ToggleButton)findViewById(R.id.toggleStayAwake);
 
+        final EditText editSupplyVoltage = (EditText)findViewById(R.id.editSupplyVoltage);
+        final EditText editMotorVoltage = (EditText)findViewById(R.id.editMotorVoltage);
 
-
-        toggleMaster.setChecked(play.isPlaying());
+        toggleMaster.setChecked(play.isPlaying()); // do this before setting change listener here
         toggleMaster.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isPressed) {
@@ -101,9 +149,9 @@ public class MainActivity extends Activity {
                 }
             }
         });
+        toggleVolLock.setChecked(settings.getBoolean(STATE_VOL_LOCK, lockVolume));
 
         // initialize "Keep screen on" toggle
-        // no need to recover state here
         toggleStayAwake.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -114,21 +162,38 @@ public class MainActivity extends Activity {
                 }
             }
         });
+        toggleStayAwake.setChecked(settings.getBoolean(STATE_STAY_AWAKE, false));
+
+        float motorVoltage = settings.getFloat(STATE_MOTOR_VOLTAGE, DEFAULT_MOTOR_VOLTAGE);
+        float supplyVoltage = settings.getFloat(STATE_SUPPLY_VOLTAGE, DEFAULT_SUPPLY_VOLTAGE);
+        editMotorVoltage.setText(String.valueOf(motorVoltage));
+        editSupplyVoltage.setText(String.valueOf(supplyVoltage));
+        setLimit(motorVoltage, supplyVoltage);
+
+        editMotorVoltage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    setLimit(Float.parseFloat(editMotorVoltage.getText().toString()), Float.parseFloat(editSupplyVoltage.getText().toString()));
+                }
+            }
+        });
+
+        editSupplyVoltage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    setLimit(Float.parseFloat(editMotorVoltage.getText().toString()), Float.parseFloat(editSupplyVoltage.getText().toString()));
+                }
+            }
+        });
 
         // initialize "Power" (pulse width) slider
-        int pulseWidthUs = play.getPulseWidthUs();
-        int progress = pulseWidthUs - PWMPlayer.MinPulseWidthUs;
-        int dutyCycle = 100 * progress / (PWMPlayer.MaxPulseWidthUs - PWMPlayer.MinPulseWidthUs);
-        seekDutyCycle.setMax(PWMPlayer.MaxPulseWidthUs - PWMPlayer.MinPulseWidthUs);
-        seekDutyCycle.setProgress(progress);
-        viewDutyLevel.setText(res.getString(R.string.value_percent, dutyCycle));
         seekDutyCycle.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int pulseWidthUs = PWMPlayer.MinPulseWidthUs + progress;
-                int dutyCycle = 100 * progress / (PWMPlayer.MaxPulseWidthUs - PWMPlayer.MinPulseWidthUs);
-                viewDutyLevel.setText(res.getString(R.string.value_percent, dutyCycle));
-                play.setPulseWidthUs(pulseWidthUs);
+                viewDutyLevel.setText(res.getString(R.string.value_percent, progress));
+                play.setPulseWidthFactor(progress / 100.0f);
             }
 
             @Override
@@ -141,12 +206,10 @@ public class MainActivity extends Activity {
 
             }
         });
+        int dutyProgress = settings.getInt(STATE_DUTY_CYCLE, Math.round(100 * play.getPulseWidthFactor()));
+        seekDutyCycle.setProgress(dutyProgress);
 
         // initialize impulse length slider
-        int impulseLength = play.getImpulseLengthMS();
-        seekImpulseLength.setMax(maxImpulseLength / PWMPlayer.PeriodLengthMs);
-        seekImpulseLength.setProgress(impulseLength / PWMPlayer.PeriodLengthMs);
-        viewImpulseLength.setText(res.getString(R.string.value_ms, impulseLength));
         seekImpulseLength.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -166,12 +229,11 @@ public class MainActivity extends Activity {
 
             }
         });
+        int impulseLength = settings.getInt(STATE_IMPULSE_LENGTH, play.getImpulseLengthMS());
+        seekImpulseLength.setMax(MaxImpulseLength / PWMPlayer.PeriodLengthMs);
+        seekImpulseLength.setProgress(impulseLength / PWMPlayer.PeriodLengthMs);
 
         // inititalize impulse delay slider
-        int impulseDelay = play.getImpulseDelayMS();
-        seekImpulseDelay.setMax(maxImpulseDelay / PWMPlayer.PeriodLengthMs);
-        seekImpulseDelay.setProgress(impulseDelay / PWMPlayer.PeriodLengthMs);
-        viewImpulseDelay.setText(res.getString(R.string.value_ms, impulseDelay));
         seekImpulseDelay.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -191,8 +253,10 @@ public class MainActivity extends Activity {
 
             }
         });
+        int impulseDelay = settings.getInt(STATE_IMPULSE_DELAY, play.getImpulseDelayMS());
+        seekImpulseDelay.setMax(MaxImpulseDelay / PWMPlayer.PeriodLengthMs);
+        seekImpulseDelay.setProgress(impulseDelay / PWMPlayer.PeriodLengthMs);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,15 +275,17 @@ public class MainActivity extends Activity {
 
         audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         initialize_views();
+
     }
 
-
     @Override
-    protected void onPause() {
+    protected void onStop() {
+        super.onStop();
         if (isFinishing()) {
             play.close();
         }
-        super.onPause();
+
+        save_settings();
     }
 
     @Override

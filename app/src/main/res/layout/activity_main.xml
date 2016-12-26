@@ -51,7 +51,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/textVolLock"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:saveEnabled="false" />
 
     <SeekBar
         android:layout_width="match_parent"
@@ -60,7 +61,8 @@
         android:layout_toRightOf="@+id/textPulseWidth"
         android:layout_toEndOf="@+id/textPulseWidth"
         android:id="@+id/seekImpulseLength"
-        android:progress="0" />
+        android:progress="0"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/value_ms"
@@ -69,7 +71,8 @@
         android:id="@+id/viewImpulseLength"
         android:layout_alignBottom="@+id/seekImpulseLength"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/label_impulse_delay"
@@ -79,7 +82,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="@dimen/control_vertical_margin"
-        android:id="@+id/textImpulseDelay" />
+        android:id="@+id/textImpulseDelay"
+        android:saveEnabled="false" />
 
     <SeekBar
         android:layout_width="match_parent"
@@ -87,7 +91,8 @@
         android:layout_alignTop="@+id/textImpulseDelay"
         android:layout_alignLeft="@+id/seekImpulseLength"
         android:layout_alignStart="@+id/seekImpulseLength"
-        android:id="@+id/seekImpulseDelay" />
+        android:id="@+id/seekImpulseDelay"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/value_percent"
@@ -96,7 +101,8 @@
         android:id="@+id/viewDutyCycle"
         android:layout_alignBottom="@+id/seekDutyCycle"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:saveEnabled="false" />
 
     <SeekBar
         android:layout_width="match_parent"
@@ -106,7 +112,8 @@
         android:progress="20"
         android:layout_alignTop="@+id/textDuty"
         android:layout_toRightOf="@+id/textPulseWidth"
-        android:layout_toEndOf="@+id/textPulseWidth" />
+        android:layout_toEndOf="@+id/textPulseWidth"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/label_impulse_length"
@@ -116,7 +123,8 @@
         android:id="@+id/textPulseWidth"
         android:layout_below="@+id/viewDutyCycle"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:saveEnabled="false" />
 
 
     <TextView
@@ -126,7 +134,8 @@
         android:id="@+id/viewImpulseDelay"
         android:layout_alignBottom="@+id/seekImpulseDelay"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/label_slope_rise"
@@ -136,7 +145,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="@dimen/control_vertical_margin"
-        android:id="@+id/textSlopeRise" />
+        android:id="@+id/textSlopeRise"
+        android:saveEnabled="false" />
 
     <SeekBar
         android:layout_width="match_parent"
@@ -144,7 +154,8 @@
         android:layout_alignTop="@+id/textSlopeRise"
         android:layout_alignLeft="@+id/seekImpulseDelay"
         android:layout_alignStart="@+id/seekImpulseDelay"
-        android:id="@+id/seekSlopeRise" />
+        android:id="@+id/seekSlopeRise"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/value_ms"
@@ -153,7 +164,8 @@
         android:id="@+id/viewSlopeRise"
         android:layout_alignBottom="@+id/seekSlopeRise"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/label_slope_fall"
@@ -163,7 +175,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="@dimen/control_vertical_margin"
-        android:id="@+id/textSlopeFall" />
+        android:id="@+id/textSlopeFall"
+        android:saveEnabled="false" />
 
     <SeekBar
         android:layout_width="match_parent"
@@ -171,7 +184,8 @@
         android:layout_alignTop="@+id/textSlopeFall"
         android:layout_alignLeft="@+id/seekImpulseDelay"
         android:layout_alignStart="@+id/seekImpulseDelay"
-        android:id="@+id/seekSlopeFall" />
+        android:id="@+id/seekSlopeFall"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/value_ms"
@@ -180,7 +194,8 @@
         android:id="@+id/viewSlopeFall"
         android:layout_alignBottom="@+id/seekSlopeFall"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:saveEnabled="false" />
 
     <ToggleButton
         android:text=""
@@ -190,7 +205,8 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_below="@+id/textAwake"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:saveEnabled="false" />
 
     <ToggleButton
         android:text=""
@@ -198,7 +214,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/toggleVolLock"
         android:layout_below="@+id/textVolLock"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:saveEnabled="false" />
 
     <ToggleButton
         android:text="@string/xxx"
@@ -208,7 +225,8 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_below="@+id/textMaster"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/label_master"
@@ -219,7 +237,8 @@
         android:layout_alignLeft="@+id/toggleMaster"
         android:layout_alignStart="@+id/toggleMaster"
         android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp" />
+        android:layout_marginStart="10dp"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/label_stay_awake"
@@ -228,7 +247,8 @@
         android:id="@+id/textAwake"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/toggleStayAwake"
-        android:layout_alignStart="@+id/toggleStayAwake" />
+        android:layout_alignStart="@+id/toggleStayAwake"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/label_power"
@@ -236,43 +256,58 @@
         android:layout_height="wrap_content"
         android:id="@+id/textDuty"
         android:layout_marginTop="@dimen/control_vertical_margin"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/textSupplyVoltage"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/label_supply_voltage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textSupplyVoltage"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="@dimen/control_vertical_margin"
         android:layout_below="@+id/toggleMaster"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/textSlopeRise"
-        android:layout_alignEnd="@+id/textSlopeRise" />
+        android:layout_alignEnd="@+id/textSlopeRise"
+        android:saveEnabled="false" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/editText"
+        android:ems="3"
+        android:id="@+id/editSupplyVoltage"
         android:layout_alignTop="@+id/textSupplyVoltage"
-        android:text="12.0"
-        android:layout_toLeftOf="@+id/textView2"
-        android:layout_toRightOf="@+id/textMaster"
-        android:layout_toEndOf="@+id/textMaster" />
+        android:layout_toRightOf="@+id/textSupplyVoltage"
+        android:layout_toEndOf="@+id/textSupplyVoltage"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/label_motor_voltage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/editText"
-        android:layout_toLeftOf="@+id/toggleStayAwake"
-        android:layout_toStartOf="@+id/toggleStayAwake"
-        android:layout_marginRight="22dp"
-        android:layout_marginEnd="22dp"
-        android:id="@+id/textView2" />
+        android:id="@+id/textMotorVoltage"
+        android:layout_alignTop="@+id/editSupplyVoltage"
+        android:layout_alignLeft="@+id/toggleVolLock"
+        android:layout_alignStart="@+id/toggleVolLock"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignRight="@+id/toggleVolLock"
+        android:layout_alignEnd="@+id/toggleVolLock"
+        android:saveEnabled="false" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="3"
+        android:id="@+id/editMotorVoltage"
+        android:layout_alignTop="@+id/textMotorVoltage"
+        android:layout_toRightOf="@+id/textMotorVoltage"
+        android:layout_toEndOf="@+id/textMotorVoltage"
+        android:saveEnabled="false" />
 
 </RelativeLayout>

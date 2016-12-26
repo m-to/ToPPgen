@@ -45,15 +45,17 @@ import android.util.Log;
 public class PWMPlayer extends Fragment {
 
     public static final int PeriodLengthMs = 20;
-    public static final int MinPulseWidthUs = 1000;
-    public static final int MaxPulseWidthUs = 2000;
+    private static final int MinPulseWidthUs = 1000;
+    private static final int MaxPulseWidthUs = 2000;
 
     private static final int sampleRate = 48000;
     private static final int samplesPerPeriod = PeriodLengthMs * sampleRate / 1000;
     private static final int bufferPeriods = 10;
 
+    private float limitPulseWidthFactor = 1.0f;
+
     // parameters shared with thread
-    private volatile int pulseWidthUs = MaxPulseWidthUs;
+    private volatile int pulseWidthUs = MinPulseWidthUs;
     private volatile int impulseLengthMS = 0;
     private volatile int impulseDelayMS = 0;
 
@@ -68,26 +70,29 @@ public class PWMPlayer extends Fragment {
         // Retain Fragment across Activity re-creation (such as from a configuration change)
         // because our Thread can still be running.
         setRetainInstance(true);
+
         sampleBuffer = new byte[samplesPerPeriod];
         audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
                 sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_8BIT,
                 samplesPerPeriod * bufferPeriods, AudioTrack.MODE_STREAM);
     }
 
-
-    public void setPulseWidthUs(int pulseWidthUs) {
-        if (pulseWidthUs < MinPulseWidthUs) {
-            this.pulseWidthUs = MinPulseWidthUs;
-        } else if (pulseWidthUs > MaxPulseWidthUs) {
-            this.pulseWidthUs = MaxPulseWidthUs;
-        } else {
-            this.pulseWidthUs = pulseWidthUs;
-        }
-        Log.d("PWMPlayer", "pulse width " + this.pulseWidthUs);
+    public float getLimitPulseWidthFactor() {
+        return limitPulseWidthFactor;
     }
 
-    public int getPulseWidthUs() {
-        return pulseWidthUs;
+    public void setLimitPulseWidthFactor(float v) {
+        this.limitPulseWidthFactor = v;
+        setPulseWidthFactor(getPulseWidthFactor());
+    }
+
+    public void setPulseWidthFactor(float v) {
+        pulseWidthUs = MinPulseWidthUs + Math.round((MaxPulseWidthUs - MinPulseWidthUs) * v * limitPulseWidthFactor);
+        Log.d("PWMPlayer", "Set pulse width to " + pulseWidthUs);
+    }
+
+    public float getPulseWidthFactor() {
+        return (pulseWidthUs - MinPulseWidthUs) / ((MaxPulseWidthUs - MinPulseWidthUs) * limitPulseWidthFactor);
     }
 
     public void setImpulseLengthMS(int length) {
