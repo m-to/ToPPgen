@@ -49,4 +49,8 @@
     <string name="label_power">Power</string>
     <string name="value_ms">%1$d ms</string>
     <string name="value_percent">%1$d%%</string>
+    <string name="value_volt">%1$.1f V</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
 </resources>

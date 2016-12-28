@@ -42,13 +42,11 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
-import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -60,20 +58,20 @@ public class MainActivity extends Activity {
     private static final int MaxImpulseLength = 1000;
     private static final int MaxImpulseDelay = 1000;
     private static final String TAG_PWMPLAY_FRAGMENT = "pwmplay_fragment";
+    private static final String TAG_DIALOG_VOLTAGES = "dialog_voltages";
 
     private final static String STATE_VOL_LOCK = "vol_lock";
     private final static String STATE_STAY_AWAKE = "stay_awake";
     private final static String STATE_SUPPLY_VOLTAGE = "supply_voltage";
     private final static String STATE_MOTOR_VOLTAGE = "motor_voltage";
-    private final static String STATE_DUTY_CYCLE = "duty_cycle";
+    private final static String STATE_PULSE_WIDTH_FACTOR = "pulse_width_factor";
     private final static String STATE_IMPULSE_LENGTH = "impulse_length";
     private final static String STATE_IMPULSE_DELAY = "impulse_delay";
 
     private PWMPlayer play = null;
 
-    private void setLimit(float motorVoltage, float supplyVoltage) {
-        play.setLimitPulseWidthFactor(motorVoltage / supplyVoltage);
-    }
+    private float motorVoltage;
+    private float supplyVoltage;
 
     private void setLocked(boolean l) {
         AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -92,6 +90,18 @@ public class MainActivity extends Activity {
         }
     }
 
+    void setVoltages(float motorVoltage, float supplyVoltage) {
+
+        TextView viewMotorVoltage = (TextView)findViewById(R.id.viewMotorVoltage);
+        TextView viewSupplyVoltage = (TextView)findViewById(R.id.viewSupplyVoltage);
+        this.motorVoltage = motorVoltage;
+        this.supplyVoltage = supplyVoltage;
+        play.setLimitPulseWidthFactor(motorVoltage / supplyVoltage);
+
+        viewMotorVoltage.setText(getResources().getString(R.string.value_volt, motorVoltage));
+        viewSupplyVoltage.setText(getResources().getString(R.string.value_volt, supplyVoltage));
+    }
+
     private void save_settings() {
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
@@ -99,29 +109,22 @@ public class MainActivity extends Activity {
         ToggleButton toggleVolLock = (ToggleButton)findViewById(R.id.toggleVolLock);
         ToggleButton toggleStayAwake = (ToggleButton)findViewById(R.id.toggleStayAwake);
 
-        EditText editSupplyVoltage = (EditText)findViewById(R.id.editSupplyVoltage);
-        EditText editMotorVoltage = (EditText)findViewById(R.id.editMotorVoltage);
-
-        SeekBar seekDutyCycle = (SeekBar)findViewById(R.id.seekDutyCycle);
-        SeekBar seekImpulseLength = (SeekBar)findViewById(R.id.seekImpulseLength);
-        SeekBar seekImpulseDelay = (SeekBar)findViewById(R.id.seekImpulseDelay);
-
         editor.putBoolean(STATE_VOL_LOCK, toggleVolLock.isChecked());
         editor.putBoolean(STATE_STAY_AWAKE, toggleStayAwake.isChecked());
 
-        editor.putFloat(STATE_SUPPLY_VOLTAGE, Float.parseFloat(editSupplyVoltage.getText().toString()));
-        editor.putFloat(STATE_MOTOR_VOLTAGE, Float.parseFloat(editMotorVoltage.getText().toString()));
+        editor.putFloat(STATE_SUPPLY_VOLTAGE, supplyVoltage);
+        editor.putFloat(STATE_MOTOR_VOLTAGE, motorVoltage);
 
-        editor.putInt(STATE_DUTY_CYCLE, seekDutyCycle.getProgress());
-        editor.putInt(STATE_IMPULSE_LENGTH, seekImpulseLength.getProgress() * PWMPlayer.PeriodLengthMs);
-        editor.putInt(STATE_IMPULSE_DELAY, seekImpulseDelay.getProgress() * PWMPlayer.PeriodLengthMs);
+        editor.putFloat(STATE_PULSE_WIDTH_FACTOR, play.getPulseWidthFactor());
+        editor.putInt(STATE_IMPULSE_LENGTH, play.getImpulseLengthMS());
+        editor.putInt(STATE_IMPULSE_DELAY, play.getImpulseDelayMS());
 
-        editor.commit();
+        editor.apply();
     }
 
     private void initialize_views() {
         final Resources res = getResources();
-        final SharedPreferences settings = getPreferences(MODE_PRIVATE);
+        SharedPreferences settings = getPreferences(MODE_PRIVATE);
 
         final TextView viewDutyLevel = (TextView)findViewById(R.id.viewDutyCycle);
         final TextView viewImpulseLength = (TextView)findViewById(R.id.viewImpulseLength);
@@ -135,8 +138,7 @@ public class MainActivity extends Activity {
         ToggleButton toggleVolLock = (ToggleButton)findViewById(R.id.toggleVolLock);
         ToggleButton toggleStayAwake = (ToggleButton)findViewById(R.id.toggleStayAwake);
 
-        final EditText editSupplyVoltage = (EditText)findViewById(R.id.editSupplyVoltage);
-        final EditText editMotorVoltage = (EditText)findViewById(R.id.editMotorVoltage);
+        ImageButton buttonVoltages = (ImageButton)findViewById(R.id.buttonVoltages);
 
         toggleMaster.setChecked(play.isPlaying()); // do this before setting change listener here
         toggleMaster.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -165,25 +167,13 @@ public class MainActivity extends Activity {
 
         float motorVoltage = settings.getFloat(STATE_MOTOR_VOLTAGE, DEFAULT_MOTOR_VOLTAGE);
         float supplyVoltage = settings.getFloat(STATE_SUPPLY_VOLTAGE, DEFAULT_SUPPLY_VOLTAGE);
-        editMotorVoltage.setText(String.valueOf(motorVoltage));
-        editSupplyVoltage.setText(String.valueOf(supplyVoltage));
-        setLimit(motorVoltage, supplyVoltage);
+        setVoltages(motorVoltage, supplyVoltage);
 
-        editMotorVoltage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        buttonVoltages.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    setLimit(Float.parseFloat(editMotorVoltage.getText().toString()), Float.parseFloat(editSupplyVoltage.getText().toString()));
-                }
-            }
-        });
-
-        editSupplyVoltage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    setLimit(Float.parseFloat(editMotorVoltage.getText().toString()), Float.parseFloat(editSupplyVoltage.getText().toString()));
-                }
+            public void onClick(View view) {
+                VoltageDialogFragment v = new VoltageDialogFragment();
+                v.show(getFragmentManager(), TAG_DIALOG_VOLTAGES);
             }
         });
 
@@ -205,8 +195,8 @@ public class MainActivity extends Activity {
 
             }
         });
-        int dutyProgress = settings.getInt(STATE_DUTY_CYCLE, Math.round(100 * play.getPulseWidthFactor()));
-        seekDutyCycle.setProgress(dutyProgress);
+        float factor = settings.getFloat(STATE_PULSE_WIDTH_FACTOR, play.getPulseWidthFactor());
+        seekDutyCycle.setProgress(Math.round(factor * 100));
 
         // initialize impulse length slider
         seekImpulseLength.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

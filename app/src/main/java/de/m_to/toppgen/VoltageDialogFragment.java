@@ -33,29 +33,32 @@
  * DAMAGE.
  */
 
-apply plugin: 'com.android.application'
+package de.m_to.toppgen;
 
-android {
-    compileSdkVersion 22
-    buildToolsVersion "25.0.1"
-    defaultConfig {
-        applicationId "de.m_to.toppgen"
-        minSdkVersion 21
-        //noinspection OldTargetApi
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    return void
-}
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
+import android.os.Bundle;
 
-dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+public class VoltageDialogFragment extends DialogFragment {
+
+    private final static float MinVoltage = 0.1f;
+    private final static float MaxVoltage = 24.0f;
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                MainActivity a = (MainActivity)getActivity();
+                a.setVoltages(0f, 0f);
+            }
+        });
+ 
+        builder.setView(R.layout.dialog_voltages);
+        return builder.create();
+    }
+
 }
