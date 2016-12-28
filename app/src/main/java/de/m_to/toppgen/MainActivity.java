@@ -70,12 +70,26 @@ public class MainActivity extends Activity {
     private final static String STATE_IMPULSE_DELAY = "impulse_delay";
 
     private PWMPlayer play = null;
-    private AudioManager audio;
-
-    private boolean lockVolume = false;
 
     private void setLimit(float motorVoltage, float supplyVoltage) {
         play.setLimitPulseWidthFactor(motorVoltage / supplyVoltage);
+    }
+
+    private void setLocked(boolean l) {
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (l) {
+            audio.setStreamVolume(AudioManager.STREAM_MUSIC,
+                    audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
+                    AudioManager.FLAG_SHOW_UI);
+        }
+    }
+
+    private void setStayAwake(boolean s) {
+        if (s) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
     }
 
     private void save_settings() {
@@ -128,38 +142,23 @@ public class MainActivity extends Activity {
         toggleMaster.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isPressed) {
-                if (isPressed) {
-                    play.startPlay(); //starts thread
-                } else {
-                    play.stopPlay(); //stops thread
-                }
+                play.setPlaying(isPressed);
             }
         });
 
         toggleVolLock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    audio.setStreamVolume(AudioManager.STREAM_MUSIC,
-                            audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                            AudioManager.FLAG_SHOW_UI);
-                    lockVolume = true;
-                } else {
-                    lockVolume = false;
-                }
+                setLocked(isChecked);
             }
         });
-        toggleVolLock.setChecked(settings.getBoolean(STATE_VOL_LOCK, lockVolume));
+        toggleVolLock.setChecked(settings.getBoolean(STATE_VOL_LOCK, false));
 
         // initialize "Keep screen on" toggle
         toggleStayAwake.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                } else {
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                }
+                setStayAwake(isChecked);
             }
         });
         toggleStayAwake.setChecked(settings.getBoolean(STATE_STAY_AWAKE, false));
@@ -273,9 +272,7 @@ public class MainActivity extends Activity {
             fm.beginTransaction().add(play, TAG_PWMPLAY_FRAGMENT).commit();
         }
 
-        audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         initialize_views();
-
     }
 
     @Override
@@ -296,7 +293,9 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (lockVolume && (keyCode == KeyEvent.KEYCODE_VOLUME_UP
+        ToggleButton toggleVolLock = (ToggleButton)findViewById(R.id.toggleVolLock);
+
+        if (toggleVolLock.isChecked() && (keyCode == KeyEvent.KEYCODE_VOLUME_UP
                 || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
             return true;
         }

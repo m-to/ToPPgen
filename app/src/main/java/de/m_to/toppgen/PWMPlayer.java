@@ -149,27 +149,27 @@ public class PWMPlayer extends Fragment {
 
     }
 
-    public void startPlay() {
-        if (!isPlaying()) {
-            audioTrack.play();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    currentImpulseMs = 0;
+    public void setPlaying(boolean p) {
+        if (p) {
+            if (!isPlaying()) {
+                audioTrack.play();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        currentImpulseMs = 0;
 
-                    int writeCount = samplesPerPeriod;
-                    while (writeCount == samplesPerPeriod) {
-                        fillBuffer();
-                        writeCount = audioTrack.write(sampleBuffer, 0, samplesPerPeriod);
+                        int writeCount = samplesPerPeriod;
+                        while (writeCount == samplesPerPeriod) {
+                            fillBuffer();
+                            writeCount = audioTrack.write(sampleBuffer, 0, samplesPerPeriod);
+                        }
                     }
-                }
-            }).start();
+                }).start();
+            }
+        } else {
+            audioTrack.pause(); // allowed during write() in other thread
+            audioTrack.flush();
         }
-    }
-
-    public void stopPlay() {
-        audioTrack.pause(); // allowed during write() in other thread
-        audioTrack.flush();
     }
 
     public boolean isPlaying() {
@@ -177,7 +177,7 @@ public class PWMPlayer extends Fragment {
     }
 
     public void close() {
-        stopPlay();
+        setPlaying(false);
         audioTrack.release();
     }
 
