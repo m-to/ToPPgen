@@ -35,6 +35,7 @@
 
 package de.m_to.toppgen;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -73,7 +74,7 @@ public class VoltageDialogFragment extends DialogFragment {
         });
         builder.setNegativeButton(R.string.cancel, null);
 
-        View dialogView = a.getLayoutInflater().inflate(R.layout.dialog_voltages, null);
+        @SuppressLint("InflateParams") View dialogView = a.getLayoutInflater().inflate(R.layout.dialog_voltages, null);
 
         final TextView viewSupplyVoltage = (TextView)dialogView.findViewById(R.id.viewSupplyVoltage);
         final TextView viewMotorVoltage = (TextView)dialogView.findViewById(R.id.viewMotorVoltage);

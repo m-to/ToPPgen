@@ -64,7 +64,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textPulseWidth"
-        android:layout_toRightOf="@+id/textPulseWidth"
         android:layout_toEndOf="@+id/textPulseWidth"
         android:id="@+id/seekImpulseLength"
         android:progress="0"
@@ -76,7 +75,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/viewImpulseLength"
         android:layout_alignBottom="@+id/seekImpulseLength"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:saveEnabled="false" />
 
@@ -85,7 +83,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewImpulseLength"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="@dimen/control_vertical_margin"
         android:id="@+id/textImpulseDelay"
@@ -95,7 +92,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textImpulseDelay"
-        android:layout_alignLeft="@+id/seekImpulseLength"
         android:layout_alignStart="@+id/seekImpulseLength"
         android:id="@+id/seekImpulseDelay"
         android:saveEnabled="false" />
@@ -106,7 +102,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/viewDutyCycle"
         android:layout_alignBottom="@+id/seekDutyCycle"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:saveEnabled="false" />
 
@@ -117,7 +112,6 @@
         android:max="100"
         android:progress="20"
         android:layout_alignTop="@+id/textDuty"
-        android:layout_toRightOf="@+id/textPulseWidth"
         android:layout_toEndOf="@+id/textPulseWidth"
         android:saveEnabled="false" />
 
@@ -128,7 +122,6 @@
         android:layout_marginTop="@dimen/control_vertical_margin"
         android:id="@+id/textPulseWidth"
         android:layout_below="@+id/viewDutyCycle"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:saveEnabled="false" />
 
@@ -139,7 +132,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/viewImpulseDelay"
         android:layout_alignBottom="@+id/seekImpulseDelay"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:saveEnabled="false" />
 
@@ -148,7 +140,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewImpulseDelay"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="@dimen/control_vertical_margin"
         android:id="@+id/textSlopeRise"
@@ -158,7 +149,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textSlopeRise"
-        android:layout_alignLeft="@+id/seekImpulseDelay"
         android:layout_alignStart="@+id/seekImpulseDelay"
         android:id="@+id/seekSlopeRise"
         android:saveEnabled="false" />
@@ -169,7 +159,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/viewSlopeRise"
         android:layout_alignBottom="@+id/seekSlopeRise"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:saveEnabled="false" />
 
@@ -178,7 +167,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewSlopeRise"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="@dimen/control_vertical_margin"
         android:id="@+id/textSlopeFall"
@@ -188,7 +176,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textSlopeFall"
-        android:layout_alignLeft="@+id/seekImpulseDelay"
         android:layout_alignStart="@+id/seekImpulseDelay"
         android:id="@+id/seekSlopeFall"
         android:saveEnabled="false" />
@@ -199,7 +186,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/viewSlopeFall"
         android:layout_alignBottom="@+id/seekSlopeFall"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:saveEnabled="false" />
 
@@ -208,9 +194,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/toggleStayAwake"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_below="@+id/textAwake"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:saveEnabled="false" />
 
@@ -228,9 +213,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/toggleMaster"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_below="@+id/textMaster"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:saveEnabled="false" />
 
@@ -240,9 +224,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/textMaster"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/toggleMaster"
         android:layout_alignStart="@+id/toggleMaster"
-        android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:saveEnabled="false" />
 
@@ -252,7 +234,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/textAwake"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/toggleStayAwake"
         android:layout_alignStart="@+id/toggleStayAwake"
         android:saveEnabled="false" />
 
@@ -263,7 +244,6 @@
         android:id="@+id/textDuty"
         android:layout_marginTop="@dimen/control_vertical_margin"
         android:layout_below="@+id/viewSupplyVoltage"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:saveEnabled="false" />
 
@@ -274,7 +254,6 @@
         android:id="@+id/textSupplyVoltage"
         android:layout_marginTop="@dimen/control_vertical_margin"
         android:layout_below="@+id/toggleMaster"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:saveEnabled="false" />
 
@@ -283,7 +262,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textMotorVoltage"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:saveEnabled="false"
         android:layout_alignBaseline="@+id/textSupplyVoltage"
         android:layout_alignBottom="@+id/textSupplyVoltage"
@@ -312,7 +291,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/buttonVoltages"
         android:layout_alignTop="@+id/textMotorVoltage"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

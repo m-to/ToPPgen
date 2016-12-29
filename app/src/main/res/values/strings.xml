@@ -36,7 +36,6 @@
 <resources>
     <string name="app_name">ToPPgen</string>
     <string name="label_master">Master</string>
-    <string name="label_level">Level</string>
     <string name="label_impulse_length">Impulse length</string>
     <string name="label_volume_lock">Max volume</string>
     <string name="label_stay_awake">Screen on</string>

@@ -230,7 +230,7 @@ public class MainActivity extends Activity {
         int impulseLength = settings.getInt(STATE_IMPULSE_LENGTH, play.getImpulseLengthMS());
         seekImpulseLength.setProgress(impulseLength / PWMPlayer.PeriodLengthMs);
 
-        // inititalize impulse delay slider
+        // initialize impulse delay slider
         seekImpulseDelay.setMax(MaxImpulseDelay / PWMPlayer.PeriodLengthMs);
         seekImpulseDelay.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
