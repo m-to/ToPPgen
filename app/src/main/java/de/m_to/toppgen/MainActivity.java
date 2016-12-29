@@ -90,6 +90,14 @@ public class MainActivity extends Activity {
         }
     }
 
+    float getMotorVoltage() {
+        return motorVoltage;
+    }
+
+    float getSupplyVoltage() {
+        return supplyVoltage;
+    }
+
     void setVoltages(float motorVoltage, float supplyVoltage) {
 
         TextView viewMotorVoltage = (TextView)findViewById(R.id.viewMotorVoltage);
@@ -199,6 +207,7 @@ public class MainActivity extends Activity {
         seekDutyCycle.setProgress(Math.round(factor * 100));
 
         // initialize impulse length slider
+        seekImpulseLength.setMax(MaxImpulseLength / PWMPlayer.PeriodLengthMs);
         seekImpulseLength.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -219,10 +228,10 @@ public class MainActivity extends Activity {
             }
         });
         int impulseLength = settings.getInt(STATE_IMPULSE_LENGTH, play.getImpulseLengthMS());
-        seekImpulseLength.setMax(MaxImpulseLength / PWMPlayer.PeriodLengthMs);
         seekImpulseLength.setProgress(impulseLength / PWMPlayer.PeriodLengthMs);
 
         // inititalize impulse delay slider
+        seekImpulseDelay.setMax(MaxImpulseDelay / PWMPlayer.PeriodLengthMs);
         seekImpulseDelay.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -243,7 +252,6 @@ public class MainActivity extends Activity {
             }
         });
         int impulseDelay = settings.getInt(STATE_IMPULSE_DELAY, play.getImpulseDelayMS());
-        seekImpulseDelay.setMax(MaxImpulseDelay / PWMPlayer.PeriodLengthMs);
         seekImpulseDelay.setProgress(impulseDelay / PWMPlayer.PeriodLengthMs);
     }
 

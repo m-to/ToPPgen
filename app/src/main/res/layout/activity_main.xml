@@ -278,15 +278,6 @@
         android:layout_alignParentStart="true"
         android:saveEnabled="false" />
 
-    <ImageButton
-        android:src="@android:drawable/ic_menu_preferences"
-        android:contentDescription="@string/edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonVoltages"
-        android:layout_alignTop="@+id/textMotorVoltage"
-        android:layout_alignStart="@+id/toggleStayAwake" />
-
     <TextView
         android:text="@string/label_motor_voltage"
         android:layout_width="wrap_content"
@@ -313,6 +304,16 @@
         android:layout_below="@+id/textMotorVoltage"
         android:layout_alignStart="@+id/textMotorVoltage"
         android:id="@+id/viewMotorVoltage" />
+
+    <ImageButton
+        android:src="@android:drawable/ic_menu_preferences"
+        android:contentDescription="@string/edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonVoltages"
+        android:layout_alignTop="@+id/textMotorVoltage"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
 </ScrollView>

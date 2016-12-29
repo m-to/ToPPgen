@@ -40,24 +40,94 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 public class VoltageDialogFragment extends DialogFragment {
 
     private final static float MinVoltage = 0.1f;
     private final static float MaxVoltage = 24.0f;
 
+    private float supplyVoltage;
+    private float motorVoltage;
+
+    private int voltageToProgress(float voltage) {
+        return (int)((voltage - MinVoltage) * 10f);
+    }
+
+    private float progressToVoltage(int progress) {
+        return progress / 10f + MinVoltage;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final MainActivity a = (MainActivity)getActivity();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(a);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                MainActivity a = (MainActivity)getActivity();
-                a.setVoltages(0f, 0f);
+                a.setVoltages(motorVoltage, supplyVoltage);
             }
         });
- 
-        builder.setView(R.layout.dialog_voltages);
+        builder.setNegativeButton(R.string.cancel, null);
+
+        View dialogView = a.getLayoutInflater().inflate(R.layout.dialog_voltages, null);
+
+        final TextView viewSupplyVoltage = (TextView)dialogView.findViewById(R.id.viewSupplyVoltage);
+        final TextView viewMotorVoltage = (TextView)dialogView.findViewById(R.id.viewMotorVoltage);
+        final SeekBar seekSupplyVoltage = (SeekBar)dialogView.findViewById(R.id.seekSupplyVoltage);
+        final SeekBar seekMotorVoltage = (SeekBar)dialogView.findViewById(R.id.seekMotorVoltage);
+
+        supplyVoltage = a.getSupplyVoltage();
+        motorVoltage = a.getMotorVoltage();
+
+        seekSupplyVoltage.setMax(voltageToProgress(MaxVoltage));
+        seekMotorVoltage.setMax(voltageToProgress(supplyVoltage));
+
+        seekSupplyVoltage.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekMotorVoltage.setMax(progress);
+                supplyVoltage = progressToVoltage(progress);
+                viewSupplyVoltage.setText(getResources().getString(R.string.value_volt, supplyVoltage));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        seekMotorVoltage.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                motorVoltage = progressToVoltage(progress);
+                viewMotorVoltage.setText(getResources().getString(R.string.value_volt, motorVoltage));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        seekSupplyVoltage.setProgress(voltageToProgress(supplyVoltage));
+        seekMotorVoltage.setProgress(voltageToProgress(motorVoltage));
+
+        builder.setView(dialogView);
+
         return builder.create();
     }
 
