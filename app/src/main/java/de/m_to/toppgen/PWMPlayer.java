@@ -184,7 +184,7 @@ public class PWMPlayer extends Fragment {
     }
 
     public void close() {
-        stopPlaying(true);
+        stopPlaying(false);
         audioTrack.release();
     }
 
