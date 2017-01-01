@@ -58,6 +58,7 @@ public class PWMPlayer extends Fragment {
     private volatile int pulseWidthUs = MinPulseWidthUs;
     private volatile int impulseLengthMS = 0;
     private volatile int impulseDelayMS = 0;
+    private boolean stopping;
 
     // variables used only by thread
     private int currentImpulseMs;
@@ -149,27 +150,33 @@ public class PWMPlayer extends Fragment {
 
     }
 
-    public void setPlaying(boolean p) {
-        if (p) {
-            if (!isPlaying()) {
-                audioTrack.play();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        currentImpulseMs = 0;
+    public void startPlaying() {
+        if (!isPlaying()) {
+            stopping = false;
+            audioTrack.play();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    currentImpulseMs = 0;
 
-                        int writeCount = samplesPerPeriod;
-                        while (writeCount == samplesPerPeriod) {
-                            fillBuffer();
-                            writeCount = audioTrack.write(sampleBuffer, 0, samplesPerPeriod);
-                        }
+                    int writeCount = samplesPerPeriod;
+                    while (writeCount == samplesPerPeriod && !stopping) {
+                        fillBuffer();
+                        writeCount = audioTrack.write(sampleBuffer, 0, samplesPerPeriod);
                     }
-                }).start();
-            }
-        } else {
-            audioTrack.pause(); // allowed during write() in other thread
-            audioTrack.flush();
+                }
+            }).start();
         }
+    }
+
+    public void stopPlaying(boolean immediately) {
+        stopping = true;
+        if (immediately) {
+            audioTrack.pause(); // allowed during write() in other thread
+        } else {
+            audioTrack.stop(); // audio will stop playing after the last buffer that was written has been played
+        }
+        audioTrack.flush();
     }
 
     public boolean isPlaying() {
@@ -177,7 +184,7 @@ public class PWMPlayer extends Fragment {
     }
 
     public void close() {
-        setPlaying(false);
+        stopPlaying(true);
         audioTrack.release();
     }
 

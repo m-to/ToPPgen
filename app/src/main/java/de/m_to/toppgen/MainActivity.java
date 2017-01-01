@@ -152,7 +152,12 @@ public class MainActivity extends Activity {
         toggleMaster.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isPressed) {
-                play.setPlaying(isPressed);
+                if (isPressed) {
+                    play.startPlaying();
+                } else {
+                    // wait until all buffers written
+                    play.stopPlaying(false);
+                }
             }
         });
 
