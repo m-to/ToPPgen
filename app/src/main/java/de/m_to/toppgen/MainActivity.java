@@ -35,7 +35,6 @@
 
 package de.m_to.toppgen;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -45,6 +44,8 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -52,10 +53,11 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class MainActivity extends Activity {
+import static android.content.Intent.ACTION_HEADSET_PLUG;
+
+public class MainActivity extends AppCompatActivity {
 
     private static final int MasterExtraTapsOnUnplugged = 1;
     private static final float DEFAULT_MOTOR_VOLTAGE = 4.8f;
@@ -172,7 +174,8 @@ public class MainActivity extends Activity {
                     } else {
                         masterTapCount--;
                         compoundButton.setChecked(false);
-                        Toast.makeText(MainActivity.this, res.getString(R.string.master_taps), Toast.LENGTH_LONG).show();
+
+                        Snackbar.make(findViewById(R.id.activity_main), R.string.master_taps, Snackbar.LENGTH_LONG).show();
                     }
                 } else {
                     // wait until all buffers written if plugged
@@ -296,8 +299,6 @@ public class MainActivity extends Activity {
         }
 
         initialize_views();
-
-
     }
 
     @Override
@@ -338,7 +339,7 @@ public class MainActivity extends Activity {
                 }
             }
         };
-        registerReceiver(audioPlugReceiver, new IntentFilter(AudioManager.ACTION_HEADSET_PLUG));
+        registerReceiver(audioPlugReceiver, new IntentFilter(ACTION_HEADSET_PLUG));
     }
 
     @Override
