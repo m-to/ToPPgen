@@ -52,4 +52,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
+    <string name="plugged">Audio jack plugged.</string>
+    <string name="not_plugged">Audio jack not plugged!</string>
 </resources>

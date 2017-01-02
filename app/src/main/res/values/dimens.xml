@@ -39,4 +39,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="control_vertical_margin">30dp</dimen>
+    <dimen name="control_vertical_margin_half">15dp</dimen>
 </resources>

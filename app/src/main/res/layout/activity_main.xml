@@ -35,6 +35,7 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true"
@@ -252,8 +253,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textSupplyVoltage"
-        android:layout_marginTop="@dimen/control_vertical_margin"
-        android:layout_below="@+id/toggleMaster"
+        android:layout_marginTop="@dimen/control_vertical_margin_half"
+        android:layout_below="@+id/viewPlugged"
         android:layout_alignParentStart="true"
         android:saveEnabled="false" />
 
@@ -262,7 +263,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textMotorVoltage"
-        android:layout_marginStart="10dp"
         android:saveEnabled="false"
         android:layout_alignBaseline="@+id/textSupplyVoltage"
         android:layout_alignBottom="@+id/textSupplyVoltage"
@@ -274,7 +274,8 @@
         android:layout_below="@+id/textSupplyVoltage"
         android:layout_alignParentStart="true"
         android:id="@+id/viewSupplyVoltage"
-        android:text="@string/value_volt" />
+        android:text="@string/value_volt"
+        android:saveEnabled="false" />
 
     <TextView
         android:text="@string/value_volt"
@@ -282,7 +283,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textMotorVoltage"
         android:layout_alignStart="@+id/textMotorVoltage"
-        android:id="@+id/viewMotorVoltage" />
+        android:id="@+id/viewMotorVoltage"
+        android:saveEnabled="false" />
 
     <ImageButton
         android:src="@android:drawable/ic_menu_preferences"
@@ -291,7 +293,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/buttonVoltages"
         android:layout_alignTop="@+id/textMotorVoltage"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:saveEnabled="false" />
+
+    <TextView
+        android:text="@string/not_plugged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toggleMaster"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/control_vertical_margin_half"
+        android:saveEnabled="false"
+        android:id="@+id/viewPlugged" />
 
 </RelativeLayout>
 </ScrollView>
