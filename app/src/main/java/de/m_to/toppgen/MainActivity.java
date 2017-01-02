@@ -48,20 +48,21 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
 
-    private static final int MasterTapOnUnplugged = 1;
+    private static final int MasterExtraTapsOnUnplugged = 1;
     private static final float DEFAULT_MOTOR_VOLTAGE = 4.8f;
     private static final float DEFAULT_SUPPLY_VOLTAGE = 12.0f;
     private static final int MaxImpulseLength = 1000;
     private static final int MaxImpulseDelay = 1000;
+
     private static final String TAG_PWMPLAY_FRAGMENT = "pwmplay_fragment";
     private static final String TAG_DIALOG_VOLTAGES = "dialog_voltages";
 
@@ -166,11 +167,12 @@ public class MainActivity extends Activity {
                     if (masterTapCount == 0) {
                         play.startPlaying();
                         if (!plugged) {
-                            masterTapCount = MasterTapOnUnplugged;
+                            masterTapCount = MasterExtraTapsOnUnplugged;
                         }
                     } else {
                         masterTapCount--;
                         compoundButton.setChecked(false);
+                        Toast.makeText(MainActivity.this, res.getString(R.string.master_taps), Toast.LENGTH_LONG).show();
                     }
                 } else {
                     // wait until all buffers written if plugged
@@ -328,7 +330,7 @@ public class MainActivity extends Activity {
                     viewPlugged.setText(R.string.plugged);
                 } else {
                     plugged = false;
-                    masterTapCount = MasterTapOnUnplugged;
+                    masterTapCount = MasterExtraTapsOnUnplugged;
                     if (!isInitialStickyBroadcast()) {
                         toggleMaster.setChecked(false);
                     }

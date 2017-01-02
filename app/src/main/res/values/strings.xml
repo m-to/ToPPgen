@@ -54,4 +54,5 @@
     <string name="edit">Edit</string>
     <string name="plugged">Audio jack plugged.</string>
     <string name="not_plugged">Audio jack not plugged!</string>
+    <string name="master_taps">Audio jack not plugged; tap one more time to start anyway.</string>
 </resources>
