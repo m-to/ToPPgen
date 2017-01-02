@@ -66,6 +66,7 @@ public class VoltageDialogFragment extends DialogFragment {
         final MainActivity a = (MainActivity)getActivity();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(a);
+        builder.setTitle(getString(R.string.set_voltages));
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

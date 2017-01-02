@@ -34,7 +34,8 @@
   ~ DAMAGE.
   -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -44,7 +45,7 @@
     android:scrollbarStyle="insideOverlay"
     android:id="@+id/activity_main">
 
-    <android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context="de.m_to.toppgen.MainActivity"
