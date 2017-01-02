@@ -38,8 +38,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars = "vertical"
     android:scrollbarStyle="insideOverlay"
@@ -57,8 +57,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textVolLock"
             android:saveEnabled="false"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textMaster"
             app:layout_constraintRight_toRightOf="@+id/toggleVolLock"
             app:layout_constraintLeft_toLeftOf="@+id/toggleVolLock" />
 
@@ -68,12 +67,12 @@
             android:id="@+id/seekImpulseLength"
             android:progress="0"
             android:saveEnabled="false"
-            app:layout_constraintTop_toTopOf="@+id/textPulseWidth"
-            app:layout_constraintBottom_toBottomOf="@+id/viewImpulseLength"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="16dp"
-            app:layout_constraintLeft_toRightOf="@+id/textPulseWidth" />
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            app:layout_constraintLeft_toRightOf="@+id/textPulseWidth"
+            app:layout_constraintTop_toTopOf="@+id/textPulseWidth"
+            app:layout_constraintBottom_toBottomOf="@+id/viewImpulseLength" />
 
         <TextView
             android:text="@string/value_ms"
@@ -90,7 +89,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textImpulseDelay"
             android:saveEnabled="false"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/control_vertical_margin"
             app:layout_constraintTop_toBottomOf="@+id/viewImpulseLength"
             app:layout_constraintLeft_toLeftOf="@+id/viewImpulseLength" />
 
@@ -100,9 +99,7 @@
             android:id="@+id/seekImpulseDelay"
             android:saveEnabled="false"
             app:layout_constraintTop_toTopOf="@+id/textImpulseDelay"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="16dp"
+            app:layout_constraintRight_toRightOf="@+id/seekImpulseLength"
             app:layout_constraintBottom_toBottomOf="@+id/viewImpulseDelay"
             app:layout_constraintLeft_toLeftOf="@+id/seekImpulseLength" />
 
@@ -112,7 +109,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textPulseWidth"
             android:saveEnabled="false"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/control_vertical_margin"
             app:layout_constraintTop_toBottomOf="@+id/viewDutyCycle"
             app:layout_constraintLeft_toLeftOf="@+id/viewDutyCycle" />
 
@@ -132,7 +129,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textSlopeRise"
             android:saveEnabled="false"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/control_vertical_margin"
             app:layout_constraintTop_toBottomOf="@+id/viewImpulseDelay"
             app:layout_constraintLeft_toLeftOf="@+id/viewImpulseDelay" />
 
@@ -143,9 +140,7 @@
             android:saveEnabled="false"
             app:layout_constraintTop_toTopOf="@+id/textSlopeRise"
             app:layout_constraintBottom_toBottomOf="@+id/viewSlopeRise"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="16dp"
+            app:layout_constraintRight_toRightOf="@+id/seekImpulseDelay"
             app:layout_constraintLeft_toLeftOf="@+id/seekImpulseDelay" />
 
         <TextView
@@ -163,7 +158,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textSlopeFall"
             android:saveEnabled="false"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/control_vertical_margin"
             app:layout_constraintTop_toBottomOf="@+id/viewSlopeRise"
             app:layout_constraintLeft_toLeftOf="@+id/viewSlopeRise" />
 
@@ -172,9 +167,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/seekSlopeFall"
             android:saveEnabled="false"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="16dp"
+            app:layout_constraintRight_toRightOf="@+id/seekSlopeRise"
             app:layout_constraintTop_toTopOf="@+id/textSlopeFall"
             app:layout_constraintBottom_toBottomOf="@+id/viewSlopeFall"
             app:layout_constraintLeft_toLeftOf="@+id/seekSlopeRise" />
@@ -188,7 +181,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textSlopeFall"
             app:layout_constraintLeft_toLeftOf="@+id/textSlopeFall"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             app:layout_constraintVertical_bias="0.0" />
 
         <ToggleButton
@@ -198,9 +191,9 @@
             android:id="@+id/toggleStayAwake"
             android:saveEnabled="false"
             app:layout_constraintTop_toBottomOf="@+id/textAwake"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="16dp" />
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
         <ToggleButton
             android:text=""
@@ -209,12 +202,8 @@
             android:id="@+id/toggleVolLock"
             android:saveEnabled="false"
             app:layout_constraintTop_toBottomOf="@+id/textVolLock"
-            android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="16dp" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <ToggleButton
             android:text=""
@@ -223,9 +212,9 @@
             android:id="@+id/toggleMaster"
             android:saveEnabled="false"
             app:layout_constraintTop_toBottomOf="@+id/textMaster"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
 
         <TextView
             android:text="@string/label_master"
@@ -235,7 +224,7 @@
             android:saveEnabled="false"
             app:layout_constraintLeft_toLeftOf="@+id/toggleMaster"
             app:layout_constraintRight_toRightOf="@+id/toggleMaster"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -246,8 +235,7 @@
             android:saveEnabled="false"
             app:layout_constraintLeft_toLeftOf="@+id/toggleStayAwake"
             app:layout_constraintRight_toRightOf="@+id/toggleStayAwake"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/textVolLock" />
 
         <TextView
             android:text="@string/label_power"
@@ -256,7 +244,7 @@
             android:id="@+id/textDuty"
             android:saveEnabled="false"
             app:layout_constraintLeft_toLeftOf="@+id/viewSupplyVoltage"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/control_vertical_margin"
             app:layout_constraintTop_toBottomOf="@+id/viewSupplyVoltage" />
 
         <TextView
@@ -265,11 +253,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/textSupplyVoltage"
             android:saveEnabled="false"
-            android:layout_marginStart="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="16dp"
+            app:layout_constraintLeft_toLeftOf="@+id/viewPlugged"
             app:layout_constraintTop_toBottomOf="@+id/viewPlugged"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="@dimen/activity_vertical_margin" />
 
         <TextView
             android:text="@string/label_motor_voltage"
@@ -315,11 +301,11 @@
             android:layout_height="wrap_content"
             android:saveEnabled="false"
             android:id="@+id/viewPlugged"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             app:layout_constraintTop_toBottomOf="@+id/toggleMaster"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="@dimen/control_vertical_margin" />
 
         <SeekBar
             android:layout_width="0dp"
@@ -330,9 +316,7 @@
             android:saveEnabled="false"
             app:layout_constraintTop_toTopOf="@+id/textDuty"
             app:layout_constraintBottom_toBottomOf="@+id/viewDutyCycle"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="16dp"
+            app:layout_constraintRight_toRightOf="@+id/seekImpulseLength"
             app:layout_constraintLeft_toLeftOf="@+id/seekImpulseLength" />
 
         <TextView
