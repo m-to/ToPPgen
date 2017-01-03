@@ -55,6 +55,7 @@
     <string name="plugged">Audio jack plugged.</string>
     <string name="not_plugged">Audio jack not plugged!</string>
     <string name="master_taps">Audio jack not plugged; tap one more time to start anyway.</string>
+    <string name="no_audiofocus">Audio focus not granted.</string>
     <string name="set_voltages">Edit voltages</string>
     <string name="label_supply">Supply</string>
     <string name="label_motor">Motor</string>
