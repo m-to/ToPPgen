@@ -36,13 +36,28 @@
 <resources>
     <string name="app_name">ToPPgen</string>
     <string name="label_master">Master</string>
-    <string name="label_level">Level</string>
     <string name="label_impulse_length">Impulse length</string>
     <string name="label_volume_lock">Max volume</string>
     <string name="label_stay_awake">Screen on</string>
-    <string name="xxx">%</string>
+    <string name="label_slope_rise">Slope rise</string>
+    <string name="label_slope_fall">Slope fall</string>
+    <string name="supply_voltage">Supply: %1$.1f V</string>
+    <string name="motor_voltage">Motor: %1$.1f V</string>
     <string name="label_impulse_delay">Impulse delay</string>
     <string name="label_power">Power</string>
     <string name="value_ms">%1$d ms</string>
     <string name="value_percent">%1$d%%</string>
+    <string name="value_volt">%1$.1f V</string>
+    <string name="set">Set</string>
+    <string name="edit">Edit</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="plugged">Audio jack plugged.</string>
+    <string name="not_plugged">Audio jack not plugged!</string>
+    <string name="master_taps">Audio jack not plugged; tap one more time to start anyway.</string>
+    <string name="no_audiofocus">Audio focus not granted.</string>
+    <string name="set_voltages">Edit voltages</string>
+    <string name="label_supply">Supply</string>
+    <string name="label_motor">Motor</string>
+    <string name="impulse_explanation">Visual explanation of the impulse parameters.</string>
 </resources>
