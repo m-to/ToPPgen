@@ -57,4 +57,5 @@
     <string name="set_voltages">Set voltages</string>
     <string name="label_supply">Supply</string>
     <string name="label_motor">Motor</string>
+    <string name="impulse_explanation">Visual explanation of the impulse parameters.</string>
 </resources>

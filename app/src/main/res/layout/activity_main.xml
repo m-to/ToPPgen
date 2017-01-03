@@ -99,9 +99,9 @@
             android:id="@+id/seekImpulseDelay"
             android:saveEnabled="false"
             app:layout_constraintTop_toTopOf="@+id/textImpulseDelay"
-            app:layout_constraintRight_toRightOf="@+id/seekImpulseLength"
             app:layout_constraintBottom_toBottomOf="@+id/viewImpulseDelay"
-            app:layout_constraintLeft_toLeftOf="@+id/seekImpulseLength" />
+            app:layout_constraintRight_toRightOf="@+id/seekImpulseLength"
+            app:layout_constraintLeft_toRightOf="@+id/textPulseWidth" />
 
         <TextView
             android:text="@string/label_impulse_length"
@@ -109,9 +109,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/textPulseWidth"
             android:saveEnabled="false"
-            android:layout_marginTop="@dimen/control_vertical_margin"
-            app:layout_constraintTop_toBottomOf="@+id/viewDutyCycle"
-            app:layout_constraintLeft_toLeftOf="@+id/viewDutyCycle" />
+            app:layout_constraintLeft_toLeftOf="@+id/viewDutyCycle"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
         <TextView
@@ -305,7 +304,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             app:layout_constraintTop_toBottomOf="@+id/toggleMaster"
-            android:layout_marginTop="@dimen/control_vertical_margin" />
+            android:layout_marginTop="@dimen/control_vertical_margin_half" />
 
         <SeekBar
             android:layout_width="0dp"
@@ -317,7 +316,9 @@
             app:layout_constraintTop_toTopOf="@+id/textDuty"
             app:layout_constraintBottom_toBottomOf="@+id/viewDutyCycle"
             app:layout_constraintRight_toRightOf="@+id/seekImpulseLength"
-            app:layout_constraintLeft_toLeftOf="@+id/seekImpulseLength" />
+            android:layout_marginStart="16dp"
+            app:layout_constraintLeft_toRightOf="@+id/textDuty"
+            android:layout_marginLeft="16dp" />
 
         <TextView
             android:text="@string/value_percent"
@@ -327,6 +328,19 @@
             android:saveEnabled="false"
             app:layout_constraintTop_toBottomOf="@+id/textDuty"
             app:layout_constraintLeft_toLeftOf="@+id/textDuty" />
+
+        <ImageView
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_impulse_explanation"
+            android:id="@+id/imageView"
+            app:layout_constraintLeft_toLeftOf="@+id/textPulseWidth"
+            android:layout_marginTop="@dimen/control_vertical_margin"
+            app:layout_constraintTop_toBottomOf="@+id/viewDutyCycle"
+            app:layout_constraintRight_toRightOf="@+id/seekImpulseLength"
+            app:layout_constraintHorizontal_bias="0.3"
+            android:layout_width="310dp"
+            android:contentDescription="@string/impulse_explanation"
+            android:adjustViewBounds="true" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
