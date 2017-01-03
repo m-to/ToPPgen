@@ -58,7 +58,7 @@ public class PWMPlayer extends Fragment {
     private volatile int pulseWidthUs = MinPulseWidthUs;
     private volatile int impulseLengthMS = 0;
     private volatile int impulseDelayMS = 0;
-    private boolean stopping;
+    private volatile boolean stopping;
 
     // variables used only by thread
     private int currentImpulseMs;
