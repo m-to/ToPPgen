@@ -49,6 +49,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -167,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         ToggleButton toggleVolLock = (ToggleButton)findViewById(R.id.toggleVolLock);
         ToggleButton toggleStayAwake = (ToggleButton)findViewById(R.id.toggleStayAwake);
 
-        ImageButton buttonVoltages = (ImageButton)findViewById(R.id.buttonVoltages);
+        Button buttonSetVoltages = (Button)findViewById(R.id.buttonSetVoltages);
 
         toggleMaster.setChecked(play.isPlaying()); // do this before setting change listener here
         toggleMaster.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         float supplyVoltage = settings.getFloat(STATE_SUPPLY_VOLTAGE, DEFAULT_SUPPLY_VOLTAGE);
         setVoltages(motorVoltage, supplyVoltage);
 
-        buttonVoltages.setOnClickListener(new View.OnClickListener() {
+        buttonSetVoltages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 VoltageDialogFragment v = new VoltageDialogFragment();

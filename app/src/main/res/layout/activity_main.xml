@@ -268,19 +268,6 @@
             android:layout_marginLeft="32dp"
             app:layout_constraintTop_toTopOf="@+id/viewSupplyVoltage" />
 
-        <ImageButton
-            android:src="@android:drawable/ic_menu_preferences"
-            android:contentDescription="@string/edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonVoltages"
-            android:saveEnabled="false"
-            android:layout_marginStart="32dp"
-            app:layout_constraintLeft_toRightOf="@+id/viewMotorVoltage"
-            android:layout_marginLeft="32dp"
-            app:layout_constraintTop_toTopOf="@+id/viewMotorVoltage"
-            app:layout_constraintBottom_toBottomOf="@+id/viewMotorVoltage" />
-
         <TextView
             android:text="@string/not_plugged"
             android:layout_width="wrap_content"
@@ -329,6 +316,18 @@
             android:layout_width="310dp"
             android:contentDescription="@string/impulse_explanation"
             android:adjustViewBounds="true" />
+
+        <Button
+            android:text="@string/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonSetVoltages"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            app:layout_constraintTop_toTopOf="@+id/viewMotorVoltage"
+            app:layout_constraintBottom_toBottomOf="@+id/viewMotorVoltage"
+            android:layout_marginStart="32dp"
+            app:layout_constraintLeft_toRightOf="@+id/viewMotorVoltage"
+            android:layout_marginLeft="32dp" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

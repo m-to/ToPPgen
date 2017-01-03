@@ -49,13 +49,13 @@
     <string name="value_percent">%1$d%%</string>
     <string name="value_volt">%1$.1f V</string>
     <string name="set">Set</string>
+    <string name="edit">Edit</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="edit">Edit</string>
     <string name="plugged">Audio jack plugged.</string>
     <string name="not_plugged">Audio jack not plugged!</string>
     <string name="master_taps">Audio jack not plugged; tap one more time to start anyway.</string>
-    <string name="set_voltages">Set voltages</string>
+    <string name="set_voltages">Edit voltages</string>
     <string name="label_supply">Supply</string>
     <string name="label_motor">Motor</string>
     <string name="impulse_explanation">Visual explanation of the impulse parameters.</string>
