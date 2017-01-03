@@ -379,11 +379,13 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
         int res = audio.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         if (res != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             Snackbar.make(findViewById(R.id.activity_main), R.string.no_audiofocus, Snackbar.LENGTH_LONG).show();
         }
+
+        ToggleButton toggleVolLock = (ToggleButton)findViewById(R.id.toggleVolLock);
+        setLocked(toggleVolLock.isChecked());
 
         audioPlugReceiver = new BroadcastReceiver() {
             @Override
