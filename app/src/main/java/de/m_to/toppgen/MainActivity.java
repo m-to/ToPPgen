@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
         this.supplyVoltage = supplyVoltage;
         play.setLimitPulseWidthFactor(motorVoltage / supplyVoltage);
 
-        viewMotorVoltage.setText(getResources().getString(R.string.value_volt, motorVoltage));
-        viewSupplyVoltage.setText(getResources().getString(R.string.value_volt, supplyVoltage));
+        viewMotorVoltage.setText(getResources().getString(R.string.motor_voltage, motorVoltage));
+        viewSupplyVoltage.setText(getResources().getString(R.string.supply_voltage, supplyVoltage));
     }
 
     private void save_settings() {

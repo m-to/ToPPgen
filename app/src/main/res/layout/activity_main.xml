@@ -110,7 +110,8 @@
             android:id="@+id/textPulseWidth"
             android:saveEnabled="false"
             app:layout_constraintLeft_toLeftOf="@+id/viewDutyCycle"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            android:layout_marginTop="8dp" />
 
 
         <TextView
@@ -247,41 +248,25 @@
             app:layout_constraintTop_toBottomOf="@+id/viewSupplyVoltage" />
 
         <TextView
-            android:text="@string/label_supply_voltage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textSupplyVoltage"
-            android:saveEnabled="false"
-            app:layout_constraintLeft_toLeftOf="@+id/viewPlugged"
-            app:layout_constraintTop_toBottomOf="@+id/viewPlugged"
-            android:layout_marginTop="@dimen/activity_vertical_margin" />
-
-        <TextView
-            android:text="@string/label_motor_voltage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textMotorVoltage"
-            android:saveEnabled="false"
-            app:layout_constraintTop_toTopOf="@+id/textSupplyVoltage"
-            app:layout_constraintLeft_toLeftOf="@+id/toggleVolLock" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/viewSupplyVoltage"
-            android:text="@string/value_volt"
+            android:text="@string/supply_voltage"
             android:saveEnabled="false"
-            app:layout_constraintLeft_toLeftOf="@+id/textSupplyVoltage"
-            app:layout_constraintTop_toBottomOf="@+id/textSupplyVoltage" />
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/viewPlugged"
+            app:layout_constraintLeft_toLeftOf="@+id/viewPlugged" />
 
         <TextView
-            android:text="@string/value_volt"
+            android:text="@string/motor_voltage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/viewMotorVoltage"
             android:saveEnabled="false"
-            app:layout_constraintLeft_toLeftOf="@+id/textMotorVoltage"
-            app:layout_constraintTop_toBottomOf="@+id/textMotorVoltage" />
+            android:layout_marginStart="32dp"
+            app:layout_constraintLeft_toRightOf="@+id/viewSupplyVoltage"
+            android:layout_marginLeft="32dp"
+            app:layout_constraintTop_toTopOf="@+id/viewSupplyVoltage" />
 
         <ImageButton
             android:src="@android:drawable/ic_menu_preferences"
@@ -290,8 +275,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/buttonVoltages"
             android:saveEnabled="false"
-            app:layout_constraintLeft_toLeftOf="@+id/toggleStayAwake"
-            app:layout_constraintTop_toTopOf="@+id/textMotorVoltage"
+            android:layout_marginStart="32dp"
+            app:layout_constraintLeft_toRightOf="@+id/viewMotorVoltage"
+            android:layout_marginLeft="32dp"
+            app:layout_constraintTop_toTopOf="@+id/viewMotorVoltage"
             app:layout_constraintBottom_toBottomOf="@+id/viewMotorVoltage" />
 
         <TextView
@@ -326,8 +313,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/viewDutyCycle"
             android:saveEnabled="false"
-            app:layout_constraintTop_toBottomOf="@+id/textDuty"
-            app:layout_constraintLeft_toLeftOf="@+id/textDuty" />
+            app:layout_constraintLeft_toLeftOf="@+id/textDuty"
+            app:layout_constraintTop_toBottomOf="@+id/textDuty" />
+
 
         <ImageView
             android:layout_height="wrap_content"

@@ -41,13 +41,14 @@
     <string name="label_stay_awake">Screen on</string>
     <string name="label_slope_rise">Slope rise</string>
     <string name="label_slope_fall">Slope fall</string>
-    <string name="label_supply_voltage">Supply voltage</string>
-    <string name="label_motor_voltage">Motor voltage</string>
+    <string name="supply_voltage">Supply: %1$.1f V</string>
+    <string name="motor_voltage">Motor: %1$.1f V</string>
     <string name="label_impulse_delay">Impulse delay</string>
     <string name="label_power">Power</string>
     <string name="value_ms">%1$d ms</string>
     <string name="value_percent">%1$d%%</string>
     <string name="value_volt">%1$.1f V</string>
+    <string name="set">Set</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
