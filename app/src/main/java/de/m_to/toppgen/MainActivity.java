@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
     private final static String STATE_PULSE_WIDTH_FACTOR = "pulse_width_factor";
     private final static String STATE_IMPULSE_LENGTH = "impulse_length";
     private final static String STATE_IMPULSE_DELAY = "impulse_delay";
+    private final static String STATE_SLOPE_RISE = "slope_rise";
+    private final static String STATE_SLOPE_FALL = "slope_fall";
 
     private PWMPlayer play = null;
 
@@ -139,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
         editor.putFloat(STATE_PULSE_WIDTH_FACTOR, play.getPulseWidthFactor());
         editor.putInt(STATE_IMPULSE_LENGTH, play.getImpulseLengthMS());
         editor.putInt(STATE_IMPULSE_DELAY, play.getImpulseDelayMS());
+        editor.putInt(STATE_SLOPE_RISE, play.getImpulseRiseMS());
+        editor.putInt(STATE_SLOPE_FALL, play.getImpulseFallMS());
 
         editor.apply();
     }
@@ -150,10 +154,14 @@ public class MainActivity extends AppCompatActivity {
         final TextView viewDutyLevel = (TextView)findViewById(R.id.viewDutyCycle);
         final TextView viewImpulseLength = (TextView)findViewById(R.id.viewImpulseLength);
         final TextView viewImpulseDelay = (TextView)findViewById(R.id.viewImpulseDelay);
+        final TextView viewSlopeRise = (TextView)findViewById(R.id.viewSlopeRise);
+        final TextView viewSlopeFall = (TextView)findViewById(R.id.viewSlopeFall);
 
         SeekBar seekDutyCycle = (SeekBar)findViewById(R.id.seekDutyCycle);
         SeekBar seekImpulseLength = (SeekBar)findViewById(R.id.seekImpulseLength);
         SeekBar seekImpulseDelay = (SeekBar)findViewById(R.id.seekImpulseDelay);
+        SeekBar seekSlopeRise = (SeekBar)findViewById(R.id.seekSlopeRise);
+        SeekBar seekSlopeFall = (SeekBar)findViewById(R.id.seekSlopeFall);
 
         ToggleButton toggleMaster = (ToggleButton)findViewById(R.id.toggleMaster);
         ToggleButton toggleVolLock = (ToggleButton)findViewById(R.id.toggleVolLock);
@@ -235,7 +243,6 @@ public class MainActivity extends AppCompatActivity {
         seekDutyCycle.setProgress(Math.round(factor * 100));
 
         // initialize impulse length slider
-        seekImpulseLength.setMax(MaxImpulseLength / PWMPlayer.PeriodLengthMs);
         seekImpulseLength.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -256,10 +263,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         int impulseLength = settings.getInt(STATE_IMPULSE_LENGTH, play.getImpulseLengthMS());
+        seekImpulseLength.setMax(MaxImpulseLength / PWMPlayer.PeriodLengthMs);
         seekImpulseLength.setProgress(impulseLength / PWMPlayer.PeriodLengthMs);
 
         // initialize impulse delay slider
-        seekImpulseDelay.setMax(MaxImpulseDelay / PWMPlayer.PeriodLengthMs);
         seekImpulseDelay.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -280,7 +287,56 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         int impulseDelay = settings.getInt(STATE_IMPULSE_DELAY, play.getImpulseDelayMS());
+        seekImpulseDelay.setMax(MaxImpulseDelay / PWMPlayer.PeriodLengthMs);
         seekImpulseDelay.setProgress(impulseDelay / PWMPlayer.PeriodLengthMs);
+
+        seekSlopeRise.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int slopeRise = progress * PWMPlayer.PeriodLengthMs;
+                viewSlopeRise.setText(res.getString(R.string.value_ms, slopeRise));
+
+                play.setImpulseRiseMS(slopeRise);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        int slopeRise = settings.getInt(STATE_SLOPE_RISE, play.getImpulseRiseMS());
+        seekSlopeRise.setMax(MaxImpulseDelay / PWMPlayer.PeriodLengthMs);
+        seekSlopeRise.setProgress(slopeRise / PWMPlayer.PeriodLengthMs);
+        seekSlopeRise.setEnabled(false); // FIXME
+
+        seekSlopeFall.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int slopeFall = progress * PWMPlayer.PeriodLengthMs;
+                viewSlopeFall.setText(res.getString(R.string.value_ms, slopeFall));
+
+                play.setImpulseFallMS(slopeFall);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        int slopeFall = settings.getInt(STATE_SLOPE_FALL, play.getImpulseFallMS());
+        seekSlopeFall.setMax(MaxImpulseDelay / PWMPlayer.PeriodLengthMs);
+        seekSlopeFall.setProgress(slopeFall / PWMPlayer.PeriodLengthMs);
+        seekSlopeFall.setEnabled(false); // FIXME
     }
 
     @Override
