@@ -52,13 +52,32 @@ public class PWMPlayer extends Fragment {
     private static final int samplesPerPeriod = PeriodLengthMs * sampleRate / 1000;
     private static final int bufferPeriods = 10;
 
-    private float limitPulseWidthFactor = 1.0f;
-
     // parameters shared with thread
-    private volatile int pulseWidthUs = MinPulseWidthUs;
+    private volatile float limitPulseWidthFactor = 1.0f;
+    private volatile float pulseWidthFactor = 1.0f;
     private volatile int impulseLengthMS = 0;
     private volatile int impulseDelayMS = 0;
     private volatile int impulseRiseMS = 0;
+    private volatile int impulseFallMS = 0;
+    private volatile boolean stopping;
+
+    // variables used only by thread
+    private int currentPeriodTimeMs;
+
+    private final byte[] sampleBuffer;
+    private final AudioTrack audioTrack;
+
+    public PWMPlayer() {
+
+        // Retain Fragment across Activity re-creation (such as from a configuration change)
+        // because our Thread can still be running.
+        setRetainInstance(true);
+
+        sampleBuffer = new byte[samplesPerPeriod];
+        audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
+                sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_8BIT,
+                samplesPerPeriod * bufferPeriods, AudioTrack.MODE_STREAM);
+    }
 
     public int getImpulseFallMS() {
         return impulseFallMS;
@@ -76,44 +95,20 @@ public class PWMPlayer extends Fragment {
         this.impulseRiseMS = impulseRiseMS;
     }
 
-    private volatile int impulseFallMS = 0;
-    private volatile boolean stopping;
-
-    // variables used only by thread
-    private int currentImpulseMs;
-
-    private final byte[] sampleBuffer;
-    private final AudioTrack audioTrack;
-
-    public PWMPlayer() {
-
-        // Retain Fragment across Activity re-creation (such as from a configuration change)
-        // because our Thread can still be running.
-        setRetainInstance(true);
-
-        sampleBuffer = new byte[samplesPerPeriod];
-        audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
-                sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_8BIT,
-                samplesPerPeriod * bufferPeriods, AudioTrack.MODE_STREAM);
-    }
-
     public float getLimitPulseWidthFactor() {
         return limitPulseWidthFactor;
     }
 
     public void setLimitPulseWidthFactor(float v) {
-        float factor = getPulseWidthFactor();
         this.limitPulseWidthFactor = v;
-        setPulseWidthFactor(factor);
     }
 
     public void setPulseWidthFactor(float v) {
-        pulseWidthUs = MinPulseWidthUs + Math.round((MaxPulseWidthUs - MinPulseWidthUs) * v * limitPulseWidthFactor);
-        Log.d("PWMPlayer", "Set pulse width to " + pulseWidthUs);
+        pulseWidthFactor = v;
     }
 
     public float getPulseWidthFactor() {
-        return (pulseWidthUs - MinPulseWidthUs) / ((MaxPulseWidthUs - MinPulseWidthUs) * limitPulseWidthFactor);
+        return pulseWidthFactor;
     }
 
     public void setImpulseLengthMS(int length) {
@@ -140,17 +135,55 @@ public class PWMPlayer extends Fragment {
         }
     }
 
-    private void fillBuffer() {
-        
-        int sample;
-        int pulseWidthSamples;
+    /** Determine pulse width for current period based on current impulse time.
+     *
+     */
+    private float decideCurrentPulseWidth() {
+        float factor;
 
-        // determine pulse width for current period based on current impulse time
-        if (currentImpulseMs <= impulseLengthMS) {
-            pulseWidthSamples = this.pulseWidthUs * sampleRate / 1000000; // power during this period
+        if (impulseLengthMS == 0) {
+            // impulse unset
+            // full power
+            factor = 1.0f;
+        } else if (currentPeriodTimeMs < impulseLengthMS) {
+            // impulse phase
+            if (currentPeriodTimeMs < impulseRiseMS) {
+                // slope rise
+                int currentRiseTimeMS = currentPeriodTimeMs - 0;
+                factor =  (float)currentRiseTimeMS / impulseRiseMS;
+            } else if (currentPeriodTimeMs < impulseLengthMS-impulseFallMS) {
+                // full power
+                factor = 1.0f;
+            } else {
+                // slope fall
+                int currentFallTimeMS = currentPeriodTimeMs - (impulseLengthMS - impulseFallMS);
+                factor = 1.0f - (float)currentFallTimeMS / impulseFallMS;
+            }
         } else {
-            pulseWidthSamples = MinPulseWidthUs * sampleRate / 1000000; // no power during this period
+            // delay phase
+            // no power
+            factor = 0.0f;
         }
+
+        // advance current impulse time
+        currentPeriodTimeMs += PeriodLengthMs;
+        if (currentPeriodTimeMs >= impulseLengthMS + impulseDelayMS) {
+            currentPeriodTimeMs = 0;
+        }
+
+        return factor * pulseWidthFactor * limitPulseWidthFactor;
+    }
+
+    private void fillBuffer() {
+
+        float pulseWidthFactor;
+        int pulseWidthUs;
+        int pulseWidthSamples;
+        int sample;
+
+        pulseWidthFactor = decideCurrentPulseWidth();
+        pulseWidthUs = MinPulseWidthUs + Math.round(pulseWidthFactor * (MaxPulseWidthUs - MinPulseWidthUs));
+        pulseWidthSamples = pulseWidthUs * sampleRate / 1000000;
 
         // generate samples
         for (sample = 0; sample < pulseWidthSamples; sample++) {
@@ -158,13 +191,6 @@ public class PWMPlayer extends Fragment {
         }
         for (; sample < samplesPerPeriod; sample++) {
             sampleBuffer[sample] = (byte)0;
-        }
-
-        // advance current impulse time
-        if (currentImpulseMs < impulseLengthMS + impulseDelayMS && impulseLengthMS != 0) {
-            currentImpulseMs += PeriodLengthMs;
-        } else {
-            currentImpulseMs = 0;
         }
 
     }
@@ -176,10 +202,11 @@ public class PWMPlayer extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    currentImpulseMs = 0;
+                    currentPeriodTimeMs = 0;
 
                     int writeCount = samplesPerPeriod;
                     while (writeCount == samplesPerPeriod && !stopping) {
+                        decideCurrentPulseWidth();
                         fillBuffer();
                         writeCount = audioTrack.write(sampleBuffer, 0, samplesPerPeriod);
                     }

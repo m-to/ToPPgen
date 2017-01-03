@@ -313,7 +313,6 @@ public class MainActivity extends AppCompatActivity {
         int slopeRise = settings.getInt(STATE_SLOPE_RISE, play.getImpulseRiseMS());
         seekSlopeRise.setMax(MaxImpulseDelay / PWMPlayer.PeriodLengthMs);
         seekSlopeRise.setProgress(slopeRise / PWMPlayer.PeriodLengthMs);
-        seekSlopeRise.setEnabled(false); // FIXME
 
         seekSlopeFall.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -337,7 +336,6 @@ public class MainActivity extends AppCompatActivity {
         int slopeFall = settings.getInt(STATE_SLOPE_FALL, play.getImpulseFallMS());
         seekSlopeFall.setMax(MaxImpulseDelay / PWMPlayer.PeriodLengthMs);
         seekSlopeFall.setProgress(slopeFall / PWMPlayer.PeriodLengthMs);
-        seekSlopeFall.setEnabled(false); // FIXME
     }
 
     @Override
