@@ -206,7 +206,6 @@ public class PWMPlayer extends Fragment {
 
                     int writeCount = samplesPerPeriod;
                     while (writeCount == samplesPerPeriod && !stopping) {
-                        decideCurrentPulseWidth();
                         fillBuffer();
                         writeCount = audioTrack.write(sampleBuffer, 0, samplesPerPeriod);
                     }
