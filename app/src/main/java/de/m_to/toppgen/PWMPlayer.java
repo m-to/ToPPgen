@@ -39,7 +39,6 @@ import android.app.Fragment;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
-import android.util.Log;
 
 
 public class PWMPlayer extends Fragment {
@@ -54,7 +53,8 @@ public class PWMPlayer extends Fragment {
 
     // parameters shared with thread
     private volatile float limitPulseWidthFactor = 1.0f;
-    private volatile float pulseWidthFactor = 1.0f;
+    private volatile float hiPulseWidthFactor = 1.0f;
+    private volatile float loPulseWidthFactor = 0.0f;
     private volatile int impulseLengthMS = 0;
     private volatile int impulseDelayMS = 0;
     private volatile int impulseRiseMS = 0;
@@ -103,12 +103,20 @@ public class PWMPlayer extends Fragment {
         this.limitPulseWidthFactor = v;
     }
 
-    public void setPulseWidthFactor(float v) {
-        pulseWidthFactor = v;
+    public void setHiPulseWidthFactor(float v) {
+        hiPulseWidthFactor = v;
     }
 
-    public float getPulseWidthFactor() {
-        return pulseWidthFactor;
+    public float getHiPulseWidthFactor() {
+        return hiPulseWidthFactor;
+    }
+
+    public void setLoPulseWidthFactor(float v) {
+        loPulseWidthFactor = v;
+    }
+
+    public float getLoPulseWidthFactor() {
+        return loPulseWidthFactor;
     }
 
     public void setImpulseLengthMS(int length) {
@@ -144,25 +152,31 @@ public class PWMPlayer extends Fragment {
         if (impulseLengthMS == 0) {
             // impulse unset
             // full power
-            factor = 1.0f;
+            factor = hiPulseWidthFactor;
         } else if (currentPeriodTimeMs < impulseLengthMS) {
             // impulse phase
             if (currentPeriodTimeMs < impulseRiseMS) {
                 // slope rise
                 int currentRiseTimeMS = currentPeriodTimeMs - 0;
-                factor =  (float)currentRiseTimeMS / impulseRiseMS;
-            } else if (currentPeriodTimeMs < impulseLengthMS-impulseFallMS) {
+                factor = loPulseWidthFactor + ((float)currentRiseTimeMS / (float)impulseRiseMS);
+                if (factor > hiPulseWidthFactor) {
+                    factor = hiPulseWidthFactor;
+                }
+            } else if (currentPeriodTimeMs < (impulseLengthMS-impulseFallMS)) {
                 // full power
-                factor = 1.0f;
+                factor = hiPulseWidthFactor;
             } else {
                 // slope fall
                 int currentFallTimeMS = currentPeriodTimeMs - (impulseLengthMS - impulseFallMS);
-                factor = 1.0f - (float)currentFallTimeMS / impulseFallMS;
+                factor = hiPulseWidthFactor - ((float)currentFallTimeMS / (float)impulseFallMS);
+                if (factor < loPulseWidthFactor) {
+                    factor = loPulseWidthFactor;
+                }
             }
         } else {
             // delay phase
             // no power
-            factor = 0.0f;
+            factor = loPulseWidthFactor;
         }
 
         // advance current impulse time
@@ -171,7 +185,7 @@ public class PWMPlayer extends Fragment {
             currentPeriodTimeMs = 0;
         }
 
-        return factor * pulseWidthFactor * limitPulseWidthFactor;
+        return factor * limitPulseWidthFactor;
     }
 
     private void fillBuffer() {

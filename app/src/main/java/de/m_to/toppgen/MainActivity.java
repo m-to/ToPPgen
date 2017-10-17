@@ -52,7 +52,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -74,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private final static String STATE_STAY_AWAKE = "stay_awake";
     private final static String STATE_SUPPLY_VOLTAGE = "supply_voltage";
     private final static String STATE_MOTOR_VOLTAGE = "motor_voltage";
-    private final static String STATE_PULSE_WIDTH_FACTOR = "pulse_width_factor";
+    private final static String STATE_POWER_HI = "power_hi";
+    private final static String STATE_POWER_LO = "power_lo";
     private final static String STATE_IMPULSE_LENGTH = "impulse_length";
     private final static String STATE_IMPULSE_DELAY = "impulse_delay";
     private final static String STATE_SLOPE_RISE = "slope_rise";
@@ -140,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
         editor.putFloat(STATE_SUPPLY_VOLTAGE, supplyVoltage);
         editor.putFloat(STATE_MOTOR_VOLTAGE, motorVoltage);
 
-        editor.putFloat(STATE_PULSE_WIDTH_FACTOR, play.getPulseWidthFactor());
+        editor.putFloat(STATE_POWER_HI, play.getHiPulseWidthFactor());
+        editor.putFloat(STATE_POWER_LO, play.getLoPulseWidthFactor());
         editor.putInt(STATE_IMPULSE_LENGTH, play.getImpulseLengthMS());
         editor.putInt(STATE_IMPULSE_DELAY, play.getImpulseDelayMS());
         editor.putInt(STATE_SLOPE_RISE, play.getImpulseRiseMS());
@@ -153,13 +154,15 @@ public class MainActivity extends AppCompatActivity {
         final Resources res = getResources();
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
 
-        final TextView viewDutyLevel = (TextView)findViewById(R.id.viewDutyCycle);
+        final TextView viewPowerHi = (TextView)findViewById(R.id.viewPowerHi);
+        final TextView viewPowerLo = (TextView)findViewById(R.id.viewPowerLo);
         final TextView viewImpulseLength = (TextView)findViewById(R.id.viewImpulseLength);
         final TextView viewImpulseDelay = (TextView)findViewById(R.id.viewImpulseDelay);
         final TextView viewSlopeRise = (TextView)findViewById(R.id.viewSlopeRise);
         final TextView viewSlopeFall = (TextView)findViewById(R.id.viewSlopeFall);
 
-        SeekBar seekDutyCycle = (SeekBar)findViewById(R.id.seekDutyCycle);
+        SeekBar seekPowerHi = (SeekBar)findViewById(R.id.seekPowerHi);
+        SeekBar seekPowerLo = (SeekBar)findViewById(R.id.seekPowerLo);
         SeekBar seekImpulseLength = (SeekBar)findViewById(R.id.seekImpulseLength);
         SeekBar seekImpulseDelay = (SeekBar)findViewById(R.id.seekImpulseDelay);
         SeekBar seekSlopeRise = (SeekBar)findViewById(R.id.seekSlopeRise);
@@ -223,12 +226,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // initialize "Power" (pulse width) slider
-        seekDutyCycle.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        // initialize "Power" (pulse width) sliders
+        seekPowerHi.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                viewDutyLevel.setText(res.getString(R.string.value_percent, progress));
-                play.setPulseWidthFactor(progress / 100.0f);
+                viewPowerHi.setText(res.getString(R.string.value_percent, progress));
+                play.setHiPulseWidthFactor(progress / 100.0f);
             }
 
             @Override
@@ -241,8 +244,28 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        float factor = settings.getFloat(STATE_PULSE_WIDTH_FACTOR, play.getPulseWidthFactor());
-        seekDutyCycle.setProgress(Math.round(factor * 100));
+        float factorHi = settings.getFloat(STATE_POWER_HI, play.getHiPulseWidthFactor());
+        seekPowerHi.setProgress(Math.round(factorHi * 100));
+
+        seekPowerLo.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                viewPowerLo.setText(res.getString(R.string.value_percent, progress));
+                play.setLoPulseWidthFactor(progress / 100.0f);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        float factorLo = settings.getFloat(STATE_POWER_LO, play.getLoPulseWidthFactor());
+        seekPowerLo.setProgress(Math.round(factorLo * 100));
 
         // initialize impulse length slider
         seekImpulseLength.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

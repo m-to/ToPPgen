@@ -129,7 +129,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textPulseWidth"
             android:saveEnabled="false"
-            app:layout_constraintLeft_toLeftOf="@+id/viewDutyCycle"
+            app:layout_constraintLeft_toLeftOf="@+id/viewPowerHi"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             android:layout_marginTop="8dp" />
 
@@ -258,14 +258,24 @@
             app:layout_constraintTop_toTopOf="@+id/textVolLock" />
 
         <TextView
-            android:text="@string/label_power"
+            android:text="@string/label_power_hi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textDuty"
+            android:id="@+id/textPowerHi"
             android:saveEnabled="false"
             app:layout_constraintLeft_toLeftOf="@+id/viewSupplyVoltage"
             android:layout_marginTop="@dimen/control_vertical_margin"
             app:layout_constraintTop_toBottomOf="@+id/viewSupplyVoltage" />
+
+        <TextView
+            android:text="@string/label_power_lo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textPowerLo"
+            android:saveEnabled="false"
+            app:layout_constraintLeft_toLeftOf="@+id/viewSupplyVoltage"
+            android:layout_marginTop="@dimen/control_vertical_margin"
+            app:layout_constraintTop_toBottomOf="@+id/viewPowerHi" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -303,25 +313,48 @@
         <SeekBar
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/seekDutyCycle"
+            android:id="@+id/seekPowerHi"
             android:max="100"
             android:progress="20"
             android:saveEnabled="false"
-            app:layout_constraintTop_toTopOf="@+id/textDuty"
-            app:layout_constraintBottom_toBottomOf="@+id/viewDutyCycle"
+            app:layout_constraintTop_toTopOf="@+id/textPowerHi"
+            app:layout_constraintBottom_toBottomOf="@+id/viewPowerHi"
             app:layout_constraintRight_toRightOf="@+id/seekImpulseLength"
             android:layout_marginStart="16dp"
-            app:layout_constraintLeft_toRightOf="@+id/textDuty"
+            app:layout_constraintLeft_toRightOf="@+id/textPowerHi"
+            android:layout_marginLeft="16dp" />
+
+        <SeekBar
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekPowerLo"
+            android:max="100"
+            android:progress="20"
+            android:saveEnabled="false"
+            app:layout_constraintTop_toTopOf="@+id/textPowerLo"
+            app:layout_constraintBottom_toBottomOf="@+id/viewPowerLo"
+            app:layout_constraintRight_toRightOf="@+id/seekImpulseLength"
+            android:layout_marginStart="16dp"
+            app:layout_constraintLeft_toRightOf="@+id/textPowerHi"
             android:layout_marginLeft="16dp" />
 
         <TextView
             android:text="@string/value_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/viewDutyCycle"
+            android:id="@+id/viewPowerHi"
             android:saveEnabled="false"
-            app:layout_constraintLeft_toLeftOf="@+id/textDuty"
-            app:layout_constraintTop_toBottomOf="@+id/textDuty" />
+            app:layout_constraintLeft_toLeftOf="@+id/textPowerHi"
+            app:layout_constraintTop_toBottomOf="@+id/textPowerHi" />
+
+        <TextView
+            android:text="@string/value_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/viewPowerLo"
+            android:saveEnabled="false"
+            app:layout_constraintLeft_toLeftOf="@+id/textPowerLo"
+            app:layout_constraintTop_toBottomOf="@+id/textPowerLo" />
 
 
         <ImageView
@@ -330,7 +363,7 @@
             android:id="@+id/imageView"
             app:layout_constraintLeft_toLeftOf="@+id/textPulseWidth"
             android:layout_marginTop="@dimen/control_vertical_margin"
-            app:layout_constraintTop_toBottomOf="@+id/viewDutyCycle"
+            app:layout_constraintTop_toBottomOf="@+id/viewPowerLo"
             app:layout_constraintRight_toRightOf="@+id/seekImpulseLength"
             app:layout_constraintHorizontal_bias="0.3"
             android:layout_width="310dp"
