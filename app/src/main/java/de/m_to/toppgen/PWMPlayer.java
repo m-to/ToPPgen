@@ -44,8 +44,8 @@ import android.util.Log;
 
 public class PWMPlayer extends Fragment {
 
-    public static final int PeriodLengthMs = 20;
-    private static final int MinPulseWidthUs = 1000;
+    public static final int PeriodLengthMs = 5;
+    private static final int MinPulseWidthUs = 1082;
     private static final int MaxPulseWidthUs = 2000;
 
     private static final int sampleRate = 48000;
